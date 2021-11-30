@@ -9,17 +9,18 @@ Ander Marin, Unai Telletxea, Dogancan Gurbuz and Unax Lasa
 The objective of this project is to control a water tank using ATMega328p microcontroller and C lenguage . In order to do so, we have to use some sensor to measure the level of the water, the rain and the pump of the scape pump.
 ![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Schema.png)
 
-Here the flowchart:
+**Here the flowchart of our programme:**
+
+![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Flowchart.drawio.png)
 
 ## Hardware description
-1. Arduino Uno
-2. LCD keypad shield
-3. 4x4 matrix keypad
-4. HC-SR04 ultrasonic sensor
-5. I2C BME280 humidity, temperature, and barometric sensor
-6. SG-90 micro servo
 
-
+- 1x Microcontroller (ATMega328p)
+- 1x Ultrasonic sensor (HC-SR04)
+- 1x Humidity, temperature and barometric sensor (I2C BME280)
+- 1x Micro servo (SG-90)
+- 1x LCD
+- 1x 4x4 Matrix keypad
 
 ## Code description and simulations
 
