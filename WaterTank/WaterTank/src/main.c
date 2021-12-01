@@ -10,12 +10,17 @@
 #include "timer.h"          // Timer library for AVR-GCC
 #include "lcd.h"            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for conversion function
+#include "bme280.h"			//add Library to control the BME
 
 #define uint8_t full = 10; //The size of the tank in hight [m]
 
 
 uint8_t data[4]=;	//Array storing the sensors meassured values
 uint8_t setting = 0;	//Defines what the LCD whil display
+
+bme280_init();
+init_ultrasonic_sensor();
+
 
 /* Function definitions ----------------------------------------------*/
 /**********************************************************************
@@ -38,7 +43,6 @@ int main(void)
 		}
 		ValveSet(data[1]);		//Return the valve to the preselected value
 	}
-	
 
 }
 
@@ -53,9 +57,9 @@ ISR() //When the keypad is touched start the interrupt
 
 }
 
-void Display(setting,value){
+void Display(uint8_t setting,uint8_t value){
 	
-	char lcd_string[2] = "  ";
+	char lcd_string[2] = " ";
 	
 	lcd_gotoxy(0,0);
 	lcd_puts("                                       "); //Resets screen
@@ -86,7 +90,7 @@ void Display(setting,value){
 	
 }
 
-int8_t ButtonGetUpDown(currentset){	//Set the setting mode of the display hen button is pressed 
+int8_t ButtonGetUpDown(uint8_t currentset){	//Set the setting mode of the display hen button is pressed 
 	int8_t newset
 	value = ADC;                  // Copy ADC result to 16-bit variable
 	if(value>240){
@@ -101,13 +105,13 @@ int8_t ButtonGetUpDown(currentset){	//Set the setting mode of the display hen bu
 }
 
 int8_t DistanceSensorValue(){
-	
+	measureDistanceCm();
 }
 
-int8_t PressureGetValue(distance){
+float PressureGetValue(distance){
+	float full = bme280_readPressure(); //Presure in Pa
 	
-	
-	return (full-distance)*9,8; //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+	return (full-distance)*9800/1000; //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
 }
 
 void PumpSet(speedper){ //Set the speed in a % form

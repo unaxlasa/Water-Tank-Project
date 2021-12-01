@@ -233,13 +233,31 @@
     <Folder Include="src\config\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="src\bme280.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\bme280.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\conf_board.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\hc-sr04.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\hc-sr04.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\i2c.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="src\i2c.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\timer.h">
       <SubType>compile</SubType>
     </Compile>
     <None Include="src\asf.h">
-      <SubType>compile</SubType>
-    </None>
-    <None Include="src\config\conf_board.h">
       <SubType>compile</SubType>
     </None>
     <None Include="src\ASF\common\services\gpio\mega_gpio\mega_gpio.h">
