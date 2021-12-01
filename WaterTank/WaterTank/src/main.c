@@ -11,13 +11,16 @@
 #include "lcd.h"            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for conversion function
 
-uint8_t data[4];
-uint8_t setting = 0;
+#define uint8_t full = 10; //The size of the tank in hight [m]
+
+
+uint8_t data[4]=;	//Array storing the sensors meassured values
+uint8_t setting = 0;	//Defines what the LCD whil display
+
 /* Function definitions ----------------------------------------------*/
 /**********************************************************************
  * Function: Main function where the program execution begins
- * Purpose:  Update stopwatch value on LCD display when 8-bit 
- *           Timer/Counter2 overflows.
+ * Purpose:  Update the values of distance and pressure.
  * Returns:  none
  **********************************************************************/
 int main(void)
@@ -29,6 +32,13 @@ int main(void)
 	setting[0] = DistanceSensorValue();
 	setting[3] = PressureGetValue();
 	
+	if(DistanceSensorValue >= full - 0,2){				//When tank is at the edge of overflow
+		while(DistanceSensorValue >= full - 0,5){		//open valve to maintain it at 0,5m from overflow
+			ValveSet(100);
+		}
+		ValveSet(data[1]);		//Return the valve to the preselected value
+	}
+	
 
 }
 
@@ -38,7 +48,7 @@ int main(void)
  * Purpose:  Update the stopwatch on LCD display every sixth overflow,
  *           ie approximately every 100 ms (6 x 16 ms = 100 ms).
  **********************************************************************/
-ISR()
+ISR() //When the keypad is touched start the interrupt
 {
 
 }
@@ -94,7 +104,7 @@ int8_t DistanceSensorValue(){
 int8_t PressureGetValue(distance){
 	
 	
-	return (10-distance)*9,8; //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+	return (full-distance)*9,8; //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
 }
 
 void PumpSet(speedper){ //Set the speed in a % form
