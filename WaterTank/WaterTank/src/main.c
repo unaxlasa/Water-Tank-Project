@@ -55,18 +55,18 @@ ISR() //When the keypad is touched start the interrupt
 
 void Display(setting,value){
 	
-	
 	char lcd_string[2] = "  ";
 	
 	lcd_gotoxy(0,0);
 	lcd_puts("                                       "); //Resets screen
+	
+	itoa(value,lcd_string,10);
 	
 	switch (setting)
 	{
 	case 0:		//Depth
 		lcd_gotoxy(0,0);
 		lcd_puts("Depth:");
-		
 		break;
 	case 1:		//Valve open ratio
 		lcd_gotoxy(0,0);
@@ -81,6 +81,9 @@ void Display(setting,value){
 		lcd_puts("Pressure:");
 		break;
 	}
+	lcd_gotoxy(1,0);
+	lcd_puts(lcd_string);
+	
 }
 
 int8_t ButtonGetUpDown(currentset){	//Set the setting mode of the display hen button is pressed 
