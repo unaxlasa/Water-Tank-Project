@@ -12,6 +12,7 @@
 #include <stdlib.h>         // C library. Needed for conversion function
 #include "bme280.h"			//add Library to control the BME
 #include "hc-sr04.h"
+#include "ServoC.h"
 uint8_t full = 10; //The size of the tank in hight [m]
 
 
@@ -20,6 +21,8 @@ uint8_t setting = 0;	//Defines what the LCD while display
 
 bme280_init();
 init_ultrasonic_sensor();
+attach(); //Servo pin layout
+
 
 
 /* Function definitions ----------------------------------------------*/
@@ -30,12 +33,11 @@ init_ultrasonic_sensor();
  **********************************************************************/
 int main(void)
 {
-	setting = ReadKeys(setting);
 	
-	Display(setting,data[setting]);
+	Display(setting,data[setting]);			//Update the display
 	
-	data[0] = DistanceSensorValue();
-	data[3] = PressureGetValue(full);
+	data[0] = DistanceSensorValue();		//Update the water level
+	data[3] = PressureGetValue(full);		//Update the pressure at the bottom of the tank
 	
 	if(DistanceSensorValue >= full - 0,2){				//When tank is at the edge of overflow
 		while(DistanceSensorValue >= full - 0,5){		//open valve to maintain it at 0,5m from overflow
@@ -54,7 +56,9 @@ int main(void)
  **********************************************************************/
 ISR(ADC_vect) //When the keypad is touched start the interrupt
 {
-	setting= ReadKeys(setting,data);
+	setting= ReadKeys(setting,*data);	//analize the meaning of the pressed button
+	ValveSet(data[1]);					//Update Valve status
+	PumpSet(data[2]);					//Update pump status
 }
 
 void Display(uint8_t setting,uint8_t value){
@@ -63,16 +67,16 @@ void Display(uint8_t setting,uint8_t value){
 	
 	lcd_gotoxy(0,0);
 	lcd_puts("                                       "); //Resets screen
+
+	itoa(value,lcd_string,10)
 	
-	itoa(value,lcd_string,10);
-	
-	switch (setting)
+	switch (setting)					//Defines the display of each setting
 	{
 	case 0:		//Depth
 		lcd_gotoxy(0,0);
 		lcd_puts("Depth:");
 		lcd_gotoxy(1,5);
-		lcd_puts("m");
+		lcd_puts("cm");
 		break;
 	case 1:		//Valve open ratio
 		lcd_gotoxy(0,0);
@@ -98,19 +102,6 @@ void Display(uint8_t setting,uint8_t value){
 	
 }
 
-int ButtonGetUpDown(uint8_t currentset){	//Set the setting mode of the display hen button is pressed 
-	int8_t newset;
-	value = ADC;                  // Copy ADC result to 16-bit variable
-	if(value>240){
-		newset= currentset + 1;
-		
-	if(value>1000){
-		
-		
-	if(newset<0){return 3;}
-	if(newset>4){return 0;}
-	return newset;
-}
 
 int8_t DistanceSensorValue(){
 	return round(10 - measureDistanceCm()/100);
@@ -118,7 +109,6 @@ int8_t DistanceSensorValue(){
 
 uint8_t PressureGetValue(uint8_t full){
 	float distance = bme280_readPressure(); //Presure in Pa
-	
 	return round((full-distance)*9800/1000); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
 }
 
@@ -127,7 +117,7 @@ void PumpSet(uint8_t speed){ //Set the speed in a % form
 }
 
 void ValveSet(uint8_t openper){ //Set the opening range of valve % form
-	
+	write(round(openper*1.8));
 }
 
 int8_t ReadKeys( int8_t setting, uint8_t *data[4]){
@@ -141,28 +131,29 @@ int8_t ReadKeys( int8_t setting, uint8_t *data[4]){
 			{
 				if (value>500)
 				{
-					if(value<800){ 						// When select button is pressed 700
+					if(value<800){ 						// When Select button is pressed 70
 						if(setting==1 | setting ==2 ){	//Button only works in certain settings
 							sel++;
-							if(sel>1){
+							if(sel>1){					//Safe the state of the button 1 == Active; 0 == INNACTIVE
 								sel=0;
 							}
 							else{
 								lcd_gotoxy(1,4);		//When sel=1 show an * in the value
-								lcd_puts(¨*¨);
+								lcd_puts(¨---¨);
 							}
 						}
 						
 					}
 				}
-				else{								//When left button is pressed 450
+				else{								//When left button is pressed 450. 
 					if (sel){
 						if(data[setting]>5){
-							*data[setting]=*data[setting]-5;	//If the number is bigger tha 5 decrease the value in jumps of 5
+							*data[setting]=*data[setting]-5;	//If the number is bigger than 5 decrease the value in jumps of 5
 						} 
 					}
+				}
 			}
-			else{							//When DOWN is pressed 250
+			else{							//When DOWN is pressed 250. Change the display setting.
 				newset=currentset +1;
 				if(newset>4){
 					newset = 0;
@@ -170,18 +161,20 @@ int8_t ReadKeys( int8_t setting, uint8_t *data[4]){
 				if(!sel){					// if select has not been started change the displayed setting
 					return newset;
 				}
+			}
 				
 		}
 		else{
-			newset=currentset -1;		//UP is pressed 120
+			newset=currentset -1;		//UP is pressed 120. Change the display setting.
 			if(newset<0){
 				newset= 3;
 			}
 			if(!sel){				// if select has not been started change the displayed setting
 				return newset;
 			}
+		}
 	}
-	else{					//Right is pressed 0
+	else{						//Right is pressed 0
 		if(*data[setting]>5){
 			*data[setting]=*data[setting]-5;
 		} 

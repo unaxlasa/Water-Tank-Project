@@ -254,6 +254,9 @@
     <Compile Include="src\i2c.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="src\ServoC.h">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="src\timer.h">
       <SubType>compile</SubType>
     </Compile>
@@ -335,6 +338,9 @@
     <Compile Include="src\main.c">
       <SubType>compile</SubType>
     </Compile>
+    <None Include="src\ServoC.cpp">
+      <SubType>compile</SubType>
+    </None>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>
