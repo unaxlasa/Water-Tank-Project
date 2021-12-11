@@ -24,4 +24,19 @@ The objective of this project is to control a water tank using ATMega328p microc
 
 ## Code description and simulations
 
+#### Libraries from previous labs:
+
+* [i2c.c](WaterTank/WaterTank/i2c.c)
+* [i2c.h](WaterTank/WaterTank/i2c.h)
+* [lcd.c](WaterTank/WaterTank/lcd.c)
+* [lcd.h](WaterTank/WaterTank/lcd.h)
+* [lcd_definitions.h](WaterTank/WaterTank/lcd_definitions.h)
+* [timer.h](WaterTank/WaterTank/timer.h) 
+
+
+
+
+
+
+
 ## References
