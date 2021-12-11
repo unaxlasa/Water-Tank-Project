@@ -13,15 +13,19 @@
 #include "bme280.h"			//add Library to control the BME
 #include "hc-sr04.h"
 #include "ServoC.h"
-uint8_t full = 10; //The size of the tank in hight [m]
+#define F_CPU 16000000
 
 
-uint8_t data[4];	//Array storing the sensors measured values
+uint8_t full 10; //The size of the tank in hight [m]
+//Data will store: Depth, Valve open %,
+uint8_t data[4]= 60,80,60,0;	//Array storing the sensors measured values
 uint8_t setting = 0;	//Defines what the LCD while display
 
 bme280_init();
 init_ultrasonic_sensor();
 attach(); //Servo pin layout
+lcd_init(LCD_DISP_ON);
+sei();
 
 
 
@@ -36,7 +40,7 @@ int main(void)
 	
 	Display(setting,data[setting]);			//Update the display
 	
-	data[0] = DistanceSensorValue();		//Update the water level
+	data[0] = DistanceSensorValue(full);		//Update the water level
 	data[3] = PressureGetValue(full);		//Update the pressure at the bottom of the tank
 	
 	if(DistanceSensorValue >= full - 0,2){				//When tank is at the edge of overflow
@@ -68,7 +72,7 @@ void Display(uint8_t setting,uint8_t value){
 	lcd_gotoxy(0,0);
 	lcd_puts("                                       "); //Resets screen
 
-	itoa(value,lcd_string,10)
+	itoa(value,lcd_string,10)		
 	
 	switch (setting)					//Defines the display of each setting
 	{
@@ -103,8 +107,8 @@ void Display(uint8_t setting,uint8_t value){
 }
 
 
-int8_t DistanceSensorValue(){
-	return round(10 - measureDistanceCm()/100);
+int8_t DistanceSensorValue(uint8_t full){
+	return round(full - measureDistanceCm()/100);
 }
 
 uint8_t PressureGetValue(uint8_t full){
@@ -122,6 +126,7 @@ void ValveSet(uint8_t openper){ //Set the opening range of valve % form
 
 int8_t ReadKeys( int8_t setting, uint8_t *data[4]){
 	int8_t newset;
+	value = ADC; 
 	int8_t sel;
 	if (value>=50)
 	{
@@ -139,7 +144,7 @@ int8_t ReadKeys( int8_t setting, uint8_t *data[4]){
 							}
 							else{
 								lcd_gotoxy(1,4);		//When sel=1 show an * in the value
-								lcd_puts(¨---¨);
+								lcd_puts('---');
 							}
 						}
 						
@@ -147,14 +152,14 @@ int8_t ReadKeys( int8_t setting, uint8_t *data[4]){
 				}
 				else{								//When left button is pressed 450. 
 					if (sel){
-						if(data[setting]>5){
-							*data[setting]=*data[setting]-5;	//If the number is bigger than 5 decrease the value in jumps of 5
+						if(data[setting]>3){
+							*data[setting]=*data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
 						} 
 					}
 				}
 			}
 			else{							//When DOWN is pressed 250. Change the display setting.
-				newset=currentset +1;
+				newset= setting +1;
 				if(newset>4){
 					newset = 0;
 				}
@@ -165,7 +170,7 @@ int8_t ReadKeys( int8_t setting, uint8_t *data[4]){
 				
 		}
 		else{
-			newset=currentset -1;		//UP is pressed 120. Change the display setting.
+			newset= setting -1;		//UP is pressed 120. Change the display setting.
 			if(newset<0){
 				newset= 3;
 			}
@@ -174,9 +179,9 @@ int8_t ReadKeys( int8_t setting, uint8_t *data[4]){
 			}
 		}
 	}
-	else{						//Right is pressed 0
-		if(*data[setting]>5){
-			*data[setting]=*data[setting]-5;
+	else{										//Right is pressed 0
+		if(*data[setting]<98){
+			*data[setting]=*data[setting]+5;	//If it is possible to edit increase the value
 		} 
 	}
 	
