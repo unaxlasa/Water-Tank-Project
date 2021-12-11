@@ -2,8 +2,10 @@
 
 ### Team members
 [Ander Marin](https://github.com/andermarin), [Unai Telletxea](https://github.com/UTAN25), [Dogancan Gurbuz](https://github.com/DogancanG) and [Unax Lasa](https://github.com/unaxlasa)
+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+### Readme.md
 
-[Here](https://github.com/unaxlasa/Water-Tank-Project) the link to the repository.
+[Here](https://github.com/unaxlasa/Water-Tank-Project/blob/main/README.md) the link to the repository.
 
 ### Project objectives
 The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water, the rain and the pump of the scape pump.
