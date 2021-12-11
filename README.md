@@ -40,7 +40,9 @@ The objective of this project is to control a water tank using ATMega328p microc
 * [hc-sr04.h](WaterTank/WaterTank/src/hc-sr04.h)
 * [ServoC.cpp](WaterTank/WaterTank/src/ServoC.cpp)
 * [ServoC.h](WaterTank/WaterTank/src/ServoC.h)
-* 
+* [bme280.c](WaterTank/WaterTank/src/bme280.c)
+* [bme280.h](WaterTank/WaterTank/src/bme280.h)
+* [conf_board.h](WaterTank/WaterTank/src/conf_board.h)
 
 
 ## Simulation of Watertank
