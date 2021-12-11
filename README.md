@@ -28,16 +28,18 @@ The objective of this project is to control a water tank using ATMega328p microc
 
 #### Libraries from previous labs:
 
-* [i2c.c](WaterTank/WaterTank/i2c.c)
-* [i2c.h](WaterTank/WaterTank/i2c.h)
-* [lcd.c](WaterTank/WaterTank/lcd.c)
-* [lcd.h](WaterTank/WaterTank/lcd.h)
-* [lcd_definitions.h](WaterTank/WaterTank/lcd_definitions.h)
-* [timer.h](WaterTank/WaterTank/timer.h) 
+* [i2c.c](WaterTank/WaterTank/src/i2c.c)
+* [i2c.h](WaterTank/WaterTank/src/i2c.h)
+* [lcd.c](WaterTank/WaterTank/src/lcd.c)
+* [lcd.h](WaterTank/WaterTank/src/lcd.h)
+* [lcd_definitions.h](WaterTank/WaterTank/src/lcd_definitions.h)
+* [timer.h](WaterTank/WaterTank/src/timer.h) 
 
 #### Own libraries:
-* [hc-sr04.c](WaterTank/WaterTank/hc-sr04.c)
-* [hc-sr04.h](WaterTank/WaterTank/hc-sr04.h)
+* [hc-sr04.c](WaterTank/WaterTank/src/hc-sr04.c)
+* [hc-sr04.h](WaterTank/WaterTank/src/hc-sr04.h)
+* [ServoC.cpp](WaterTank/WaterTank/src/ServoC.cpp)
+* [ServoC.h](WaterTank/WaterTank/src/ServoC.h)
 * 
 
 
