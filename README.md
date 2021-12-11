@@ -40,13 +40,13 @@ The objective of this project is to control a water tank using ATMega328p microc
 
 
 ## Simulation of Watertank
-* 1) If it is rainy:
+* -1) If it is rainy:
 
 
-* 2) If the tank empty:
+* -2) If the tank empty:
 
 
-* 3) If the tank full:
+* -3) If the tank full:
 
 
 ## References
