@@ -348,12 +348,12 @@ Unique  Id: Connector-241:
 Circuit Id: Connector-241
 <item boardPos="-1e+06,-1e+06" startpinid="Node-240-2" labely="-24" pointList="-204,-20,-204,-60,-252,-60,-252,-80" rotation="0" valLabelx="0" circRot="0" endpinid="atmega328-1-PC5" id="Connector-241" itemtype="Connector" Show_id="false" vflip="1" circPos="0,0" valLabely="0" y="-20" labelrot="0" labelx="-16" hflip="1" enodeid="enode-239" valLabRot="0" objectName="Connector-241" mainComp="false" boardRot="-1000000" x="-204"/>
 
-Unique  Id: Connector-247: 
-Circuit Id: Connector-247
-<item boardPos="-1e+06,-1e+06" startpinid="Oscope-245-Pin0" labely="-24" pointList="-208,160,-276,160,-276,-80" rotation="0" valLabelx="0" circRot="0" endpinid="atmega328-1-PC2" id="Connector-247" itemtype="Connector" Show_id="false" vflip="1" circPos="0,0" valLabely="0" y="160" labelrot="0" labelx="-16" hflip="1" enodeid="enode-247" valLabRot="0" objectName="Connector-247" mainComp="false" boardRot="-1000000" x="-208"/>
-
 Unique  Id: Connector-250: 
 Circuit Id: Connector-250
 <item boardPos="-1e+06,-1e+06" startpinid="Oscope-245-PinG" labely="-24" pointList="-208,272,-216,272,-216,292" rotation="0" valLabelx="0" circRot="0" endpinid="Ground-249-Gnd" id="Connector-250" itemtype="Connector" Show_id="false" vflip="1" circPos="0,0" valLabely="0" y="272" labelrot="0" labelx="-16" hflip="1" enodeid="enode-250" valLabRot="0" objectName="Connector-250" mainComp="false" boardRot="-1000000" x="-208"/>
+
+Unique  Id: Connector-251: 
+Circuit Id: Connector-251
+<item boardPos="-1e+06,-1e+06" startpinid="atmega328-1-PB2" labely="-24" pointList="-348,-80,-348,160,-208,160" rotation="0" valLabelx="0" circRot="0" endpinid="Oscope-245-Pin0" id="Connector-251" itemtype="Connector" Show_id="false" vflip="1" circPos="0,0" valLabely="0" y="-80" labelrot="0" labelx="-16" hflip="1" enodeid="enode-251" valLabRot="0" objectName="Connector-251" mainComp="false" boardRot="-1000000" x="-348"/>
  
 </circuit>
