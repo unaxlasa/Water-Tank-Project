@@ -22,8 +22,8 @@
 
 uint8_t full = 10; //The size of the tank in hight [m]
 //Data will store: Depth, Valve open %, Pump state, Pressure
-uint8_t data[4]= {60,80,60,0};	//Array storing the sensors measured values
-uint8_t setting = 1;	//Defines what the LCD while display
+uint8_t data[4]= {60,80,0,0};	//Array storing the sensors measured values
+uint8_t setting = 3;	//Defines what the LCD while display
 
 
 /* Function definitions ----------------------------------------------*/
@@ -33,14 +33,10 @@ uint8_t setting = 1;	//Defines what the LCD while display
  * Returns:  none
  **********************************************************************/
  void Display(uint8_t setting,uint8_t value){
-	 
-	 lcd_init(LCD_DISP_ON);
  
 	 char lcd_string[2] = " ";
  
-	 lcd_gotoxy(0,0);
-	 lcd_puts("                                                                                                       "); //Resets screen
-
+	
 	 itoa(value,lcd_string,10);
 	 lcd_gotoxy(0,1);
  
@@ -128,51 +124,45 @@ void ValveSet(uint8_t openper){ //Set the opening range of valve % form
  **********************************************************************/
 
 uint8_t ReadKeys( uint8_t setting, uint8_t *data[4]){
+	 lcd_gotoxy(0,0);
+	 lcd_puts("                                                                                                       "); //Resets screen
+
 
 	uint8_t newset = setting;
 	uint8_t value = 0;
 	uint8_t sel;
 	value = ADC;
-	if (value>=50)
-	{
-		if (value>150)
-		{
-			if (value>300)
-			{
-				if (value<500)
-				{							//When left button is pressed 450.
-					if (setting=1 |data[setting]>3 ){
-						*data[setting]=*data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
-					}
-					if(setting==2){
-						PumpSet(data[2]);
-					}
-				}
-			}
-			else{							//When DOWN is pressed 250. Change the display setting.
-				newset= setting +1;
-				if(newset>3){
-					newset = 0;
-				}
-			}
-			
-		}
-		else{
-			newset= setting -1;		//UP is pressed 120. Change the display setting.
-			if(newset<0){
-				newset= 3;
-			}
+	
+	if(value>80 & value<120){ //Up
+		newset= setting -1;		//UP is pressed 120. Change the display setting.
+		if(newset<0){
+			newset= 3;
 		}
 	}
-	else{										//Right is pressed 0
-		if(*data[setting]<98| setting==1){
-			*data[setting]=*data[setting]+5;	//If it is possible to edit increase the value
+	
+	if(value>200 & value< 300){ //DOWN
+		newset= setting +1;
+		if(newset>3){
+			newset = 0;
+	}
+	
+	if(value>390 & value<430){ //LEFT //When left button is pressed 450.
+		if (setting==1 & data[setting] != 0 ){
+			*data[setting]=*data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
 		}
 		if(setting==2){
 			PumpSet(data[2]);
 		}
 	}
 	
+	if(value < 80){ //Right
+		if(*data[setting] != 98 & setting==1){
+			*data[setting]=*data[setting]+5;	//If it is possible to edit increase the value
+		}
+		if(setting==2){
+			PumpSet(data[2]);
+		}
+	}
 	return newset;
 	
 }
@@ -200,6 +190,7 @@ int8_t DistanceSensorValue(uint8_t full){
  **********************************************************************/
 int main(void)
 {
+	lcd_init(LCD_DISP_ON);
 	//bme280_init();
 	//init_ultrasonic_sensor();
 	// Configure ADC to convert PC0[A0] analog value
@@ -217,13 +208,13 @@ int main(void)
 	ADCSRA |= (1<<ADPS0 | 1<<ADPS1| 1<<ADPS2);
 	// Configure 16-bit Timer/Counter1 to start ADC conversion
 	// Set prescaler to 262 ms and enable overflow interrupt
-	TIM1_overflow_262ms();
-	TIM1_overflow_interrupt_enable();
+	//TIM0_overflow_16ms();
+	//TIM0_overflow_interrupt_enable();
 	// Enables interrupts by setting the global interrupt mask
 	sei();
 	
 	while(1){
-		Display(setting,data[setting]);			//Update the display
+		Display(setting, data[setting]);			//Update the display
 		
 		//data[0] = DistanceSensorValue(full);		//Update the water level
 		//data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
@@ -247,6 +238,7 @@ int main(void)
  * Purpose:  Update the stopwatch on LCD display every sixth overflow,
  *           ie approximately every 100 ms (6 x 16 ms = 100 ms).
  **********************************************************************/
+/*
 ISR(ADC_vect) //When the keypad is touched start the interrupt
 {
 	setting= ReadKeys(setting,*data);	//analize the meaning of the pressed button
@@ -255,9 +247,9 @@ ISR(ADC_vect) //When the keypad is touched start the interrupt
 }
 
 
-ISR(TIMER1_OVF_vect)
+ISR(TIMER0_OVF_vect)
 {
 	// Start ADC conversion
 	ADCSRA |= (1<<ADSC);
 
-}
+}*/
