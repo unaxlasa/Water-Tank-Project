@@ -101,7 +101,7 @@ uint8_t PressureGetValue(uint8_t waterlevel){
  **********************************************************************/
 
 int PumpSet(uint8_t state){ //Set the pump
-	GPIO_config_output(&DDRD, PUMP_PIN);
+	
 	GPIO_toggle(state,PUMP_PIN);
 	if(state==1){
 		GPIO_write_high(&PORTD, PUMP_PIN);
@@ -124,29 +124,31 @@ void ValveSet(uint8_t openper){ //Set the opening range of valve % form
  **********************************************************************/
 
 uint8_t ReadKeys( uint8_t setting, uint8_t *data[4]){
-	 lcd_gotoxy(0,0);
-	 lcd_puts("                                                                                                       "); //Resets screen
-
-
+	 
 	uint8_t newset = setting;
 	uint8_t value = 0;
 	uint8_t sel;
 	value = ADC;
 	
-	if(value>80 & value<120){ //Up
+	if(value>80 && value<120){ //Up
 		newset= setting -1;		//UP is pressed 120. Change the display setting.
 		if(newset<0){
 			newset= 3;
 		}
+		lcd_gotoxy(0,0);
+		lcd_puts("                                                                                                       "); //Resets screen
 	}
 	
-	if(value>200 & value< 300){ //DOWN
+	if(value>200 && value< 300){ //DOWN
 		newset= setting +1;
 		if(newset>3){
 			newset = 0;
+		}
+		lcd_gotoxy(0,0);
+		lcd_puts("                                                                                                       "); //Resets screen
 	}
 	
-	if(value>390 & value<430){ //LEFT //When left button is pressed 450.
+	if(value>390 && value<430){ //LEFT //When left button is pressed 410.
 		if (setting==1 & data[setting] != 0 ){
 			*data[setting]=*data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
 		}
@@ -156,7 +158,7 @@ uint8_t ReadKeys( uint8_t setting, uint8_t *data[4]){
 	}
 	
 	if(value < 80){ //Right
-		if(*data[setting] != 98 & setting==1){
+		if(*data[setting] != 100 && setting==1){
 			*data[setting]=*data[setting]+5;	//If it is possible to edit increase the value
 		}
 		if(setting==2){
@@ -191,8 +193,9 @@ int8_t DistanceSensorValue(uint8_t full){
 int main(void)
 {
 	lcd_init(LCD_DISP_ON);
-	//bme280_init();
-	//init_ultrasonic_sensor();
+	GPIO_config_output(&DDRD, PUMP_PIN);
+	bme280_init();
+	init_ultrasonic_sensor();
 	// Configure ADC to convert PC0[A0] analog value
 	
 	// Set ADC reference to AVcc
@@ -228,8 +231,6 @@ int main(void)
 		setting=ReadKeys(setting,*data);
 
 	}
-	
-
 }
 
 /* Interrupt service routines ----------------------------------------*/
