@@ -19,6 +19,8 @@
 #include "gpio.h"
 #include "servo.h"
 #include <math.h>
+#include <stdio.h>		/* Include std. library file */
+#include <util/delay.h>		/* Include Delay header file */
 
 
 uint8_t full = 100; //The size of the tank in hight [m]
@@ -124,10 +126,10 @@ void ValveSet(uint8_t openper){ //Set the opening range of valve % form
 
 uint8_t ReadKeys( uint8_t setting, uint8_t *data[4], int value){
 	 
-	uint8_t newset = setting;	
+	int8_t newset = setting;	
 
 	if(value>80 && value<120){ //Up
-		newset= setting -1;		//UP is pressed 120. Change the display setting.
+		newset = newset -1;		//UP is pressed 120. Change the display setting.
 		if(newset<0){
 			newset= 3;
 		}
@@ -136,7 +138,7 @@ uint8_t ReadKeys( uint8_t setting, uint8_t *data[4], int value){
 	}
 	
 	if(value>200 && value< 300){ //DOWN
-		newset= setting +1;
+		newset= setting + 1;
 		if(newset>3){
 			newset = 0;
 		}
@@ -191,7 +193,7 @@ int main(void)
 	lcd_init(LCD_DISP_ON);
 	GPIO_config_output(&DDRD, PUMP_PIN);
 	bme280_init();
-	init_ultrasonic_sensor();
+	//init_ultrasonic_sensor();
 	// Configure ADC to convert PC0[A0] analog value
 	
 	// Set ADC reference to AVcc
@@ -207,14 +209,15 @@ int main(void)
 	ADCSRA |= (1<<ADPS0 | 1<<ADPS1| 1<<ADPS2);
 	// Configure 16-bit Timer/Counter1 to start ADC conversion
 	// Set prescaler to 262 ms and enable overflow interrupt
-	TIM1_overflow_262ms();
-	TIM1_overflow_interrupt_enable();
+	//TIM1_overflow_262ms();
+	//TIM1_overflow_interrupt_enable();
 	// Enables interrupts by setting the global interrupt mask
-	sei();
+	//sei();
 	
 	while(1){
-		
-		Display(setting, data[setting]);			//Update the display
+		ADCSRA |= (1<<ADSC);
+		_delay_ms(200);
+		Display(setting, data[setting]);			//Update the displayz
 		data[0] = DistanceSensorValue(full);		//Update the water level
 		data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
 		
@@ -224,7 +227,7 @@ int main(void)
 			}
 			ValveSet(data[1]);		//Return the valve to the preselected value
 		}*/
-		setting=ReadKeys(setting,*data,ADC);
+		setting=ReadKeys(setting,*data, ADC);
 
 	}
 }
@@ -238,7 +241,7 @@ int main(void)
 
 ISR(ADC_vect) //When the keypad is touched start the interrupt
 {
-	
+	Display(setting, data[setting]);
 	setting = ReadKeys(setting, data, ADC);	//analize the meaning of the pressed button
 	ValveSet(data[1]);					//Update Valve status
 	PumpSet(data[2]);					//Update pump status

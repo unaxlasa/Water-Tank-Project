@@ -5,7 +5,7 @@
  *  Author: ander
  */ 
 
-#define F_CPU 8000000UL		/* Define CPU Frequency e.g. here its 8MHz */
+#define F_CPU 16000000	/* Define CPU Frequency e.g. here its 8MHz */
 #include <avr/io.h>		/* Include AVR std. library file */
 #include <stdio.h>		/* Include std. library file */
 #include <util/delay.h>		/* Include Delay header file */
