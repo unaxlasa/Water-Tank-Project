@@ -27,34 +27,25 @@ The objective of this project is to control a water tank using ATMega328p microc
 - 1x LCD
 
 ## Code description and simulations
-In order to do this project we had to use several libraries, some of them from previous laboratory excercises. We had to create libraries for the servo motor, ultrasonic sensorand humidity, temperature and barometric sensor.
+In order to do this project we had to use several libraries, some of them from previous laboratory excercises. We had to add libraries for the servo motor, ultrasonic sensorand humidity, temperature and barometric sensor. We created our own library `servo.h` which you can find it [here](WaterTank/WaterTank/src/ServoC.h).
 
 **Libraries from previous labs:**
-* [i2c.c](WaterTank/WaterTank/src/i2c.c):
-* [i2c.h](WaterTank/WaterTank/src/i2c.h):
-* [lcd.c](WaterTank/WaterTank/src/lcd.c):
-* [lcd.h](WaterTank/WaterTank/src/lcd.h):
-* [lcd_definitions.h](WaterTank/WaterTank/src/lcd_definitions.h):
-* [timer.h](WaterTank/WaterTank/src/timer.h):
+* avr/io.h: AVR input/output definitions.
+* [lcd.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/lcd.h): For using the LCD.
+* [lcd_definitions.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/lcd_definitions.h): For defining the LCD parameters.
+* [timer.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/timer.h): For difining timers.
 
-**Own libraries:**
-* [hc-sr04.c](WaterTank/WaterTank/src/hc-sr04.c):
-* [hc-sr04.h](WaterTank/WaterTank/src/hc-sr04.h):
-* [ServoC.cpp](WaterTank/WaterTank/src/ServoC.cpp):
-* [ServoC.h](WaterTank/WaterTank/src/ServoC.h):
-* [bme280.c](WaterTank/WaterTank/src/bme280.c):
-* [bme280.h](WaterTank/WaterTank/src/bme280.h):
-* [conf_board.h](WaterTank/WaterTank/src/conf_board.h):
+**Added libraries:**
+* [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/hc-sr04.h): For using the ultrasonic sensor.
+* [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/ServoC.h): For controlling the servo motor.
+* [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/bme280.h): For using the humidity sensor.
 
 &nbsp;
-
 We use all 3 timers in our project, in the table below you can see why and with which prescaler we use the them,
-|           TIMER          | PRESCALER | REASON |
+|           TIMER          | PRESCALER |                                                                    REASON                                                                          |
 |:------------------------:|:---------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|
-|      `Timer/Counter0`      |    4ms    | For scanning the keypad at every overflow,  and configure the sytem according the pressed key.                                                     |
-|      `Timer/Counter1`      |     1s    | For creating counters (5s and 3s) which is used in the application,  for example it starts counting to 5 after the user start typing the password. |
-|      `Timer/Counter2`      |    16ms   | To create PWM signals for buzzer and the door bell.                                                                                                |
-
+|      `Timer/Counter1`      |    ms    |                                                     |
+|      `Timer/Counter1`      |    ms    |                                                   |
 &nbsp;
 
 ## Software
