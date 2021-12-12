@@ -149,8 +149,8 @@
     <OutputFileName>WaterTankTrial</OutputFileName>
     <OutputFileExtension>.elf</OutputFileExtension>
     <OutputType>Executable</OutputType>
-    <UsesExternalMakeFile>True</UsesExternalMakeFile>
-    <OutputDirectory />
+    <UsesExternalMakeFile>False</UsesExternalMakeFile>
+    <OutputDirectory>$(MSBuildProjectDirectory)\$(Configuration)</OutputDirectory>
     <BuildTarget>all</BuildTarget>
     <CleanTarget>clean</CleanTarget>
   </PropertyGroup>
@@ -165,6 +165,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="conf_board.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="gpio.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="gpio.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="hc-sr04.c">

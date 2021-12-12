@@ -22,7 +22,7 @@
 #include <avr/interrupt.h>
 #include <util/delay.h>
 
-#define HCSR_TRIGGER PORTB2
+#define HCSR_TRIGGER PORTB3
 #define HCSR_TRIGGER_PORT PORTB
 #define HCSR_TRIGGER_DDR DDRB
 

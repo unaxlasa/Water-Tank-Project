@@ -38,6 +38,7 @@ SUBDIRS :=
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS +=  \
 ../bme280.c \
+../gpio.c \
 ../hc-sr04.c \
 ../i2c.c \
 ../lcd.c \
@@ -53,6 +54,7 @@ ASM_SRCS +=
 
 OBJS +=  \
 bme280.o \
+gpio.o \
 hc-sr04.o \
 i2c.o \
 lcd.o \
@@ -61,6 +63,7 @@ servo.o
 
 OBJS_AS_ARGS +=  \
 bme280.o \
+gpio.o \
 hc-sr04.o \
 i2c.o \
 lcd.o \
@@ -69,6 +72,7 @@ servo.o
 
 C_DEPS +=  \
 bme280.d \
+gpio.d \
 hc-sr04.d \
 i2c.d \
 lcd.d \
@@ -77,6 +81,7 @@ servo.d
 
 C_DEPS_AS_ARGS +=  \
 bme280.d \
+gpio.d \
 hc-sr04.d \
 i2c.d \
 lcd.d \
@@ -98,6 +103,13 @@ LINKER_SCRIPT_DEP+=
 
 # AVR32/GNU C Compiler
 ./bme280.o: .././bme280.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)E:\Programas Uni\ATMEL\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"E:\Programas Uni\ATMEL\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "E:\Programas Uni\ATMEL\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./gpio.o: .././gpio.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)E:\Programas Uni\ATMEL\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"E:\Programas Uni\ATMEL\7.0\Packs\atmel\ATmega_DFP\1.6.364\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "E:\Programas Uni\ATMEL\7.0\Packs\atmel\ATmega_DFP\1.6.364\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
