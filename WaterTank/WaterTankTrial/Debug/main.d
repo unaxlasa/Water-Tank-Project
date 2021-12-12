@@ -19,7 +19,7 @@ main.d main.o: .././main.c \
  .././bme280.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
- .././i2c.h .././hc-sr04.h .././gpio.h \
+ .././i2c.h .././hc-sr04.h .././gpio.h .././servo.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
@@ -69,5 +69,7 @@ e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\
 .././hc-sr04.h:
 
 .././gpio.h:
+
+.././servo.h:
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:

@@ -7,7 +7,7 @@
 
 
 #ifndef SERVO_H
-# define SERVO_H
+#define SERVO_H
 
 
 void setupServoTimer(volatile uint8_t *reg_name, uint8_t pin_num);
@@ -23,5 +23,4 @@ void moveServoDelay(volatile uint8_t *reg_name, uint8_t pin_num, uint8_t porcent
 
 /*Moves the servo using the delay, changing the porcentage to time*/
 
-
-{
+#endif

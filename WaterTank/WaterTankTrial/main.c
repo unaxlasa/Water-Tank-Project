@@ -17,13 +17,14 @@
 #include "bme280.h"			//add Library to control the BME
 #include "hc-sr04.h"
 #include "gpio.h"
+#include "servo.h"
 #include <math.h>
 
 
-uint8_t full = 10; //The size of the tank in hight [m]
+uint8_t full = 100; //The size of the tank in hight [m]
 //Data will store: Depth, Valve open %, Pump state, Pressure
 uint8_t data[4]= {60,80,0,0};	//Array storing the sensors measured values
-uint8_t setting = 3;	//Defines what the LCD while display
+uint8_t setting = 2;	//Defines what the LCD while display
 
 
 /* Function definitions ----------------------------------------------*/
@@ -65,8 +66,6 @@ uint8_t setting = 3;	//Defines what the LCD while display
 			 }
 			 lcd_gotoxy(0,0);
 			 lcd_puts("Pump:");
-			 lcd_gotoxy(5,1);
-			 lcd_puts("%");
 			 break;
 		 case 3:		//Pressure
 			 lcd_puts(lcd_string);
@@ -123,13 +122,10 @@ void ValveSet(uint8_t openper){ //Set the opening range of valve % form
  * Returns:  The setting value the user wants to see.
  **********************************************************************/
 
-uint8_t ReadKeys( uint8_t setting, uint8_t *data[4]){
+uint8_t ReadKeys( uint8_t setting, uint8_t *data[4], int value){
 	 
-	uint8_t newset = setting;
-	uint8_t value = 0;
-	uint8_t sel;
-	value = ADC;
-	
+	uint8_t newset = setting;	
+
 	if(value>80 && value<120){ //Up
 		newset= setting -1;		//UP is pressed 120. Change the display setting.
 		if(newset<0){
@@ -153,7 +149,7 @@ uint8_t ReadKeys( uint8_t setting, uint8_t *data[4]){
 			*data[setting]=*data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
 		}
 		if(setting==2){
-			PumpSet(data[2]);
+			PumpSet(*data[2]);
 		}
 	}
 	
@@ -162,7 +158,7 @@ uint8_t ReadKeys( uint8_t setting, uint8_t *data[4]){
 			*data[setting]=*data[setting]+5;	//If it is possible to edit increase the value
 		}
 		if(setting==2){
-			PumpSet(data[2]);
+			PumpSet(*data[2]);
 		}
 	}
 	return newset;
@@ -211,16 +207,16 @@ int main(void)
 	ADCSRA |= (1<<ADPS0 | 1<<ADPS1| 1<<ADPS2);
 	// Configure 16-bit Timer/Counter1 to start ADC conversion
 	// Set prescaler to 262 ms and enable overflow interrupt
-	//TIM0_overflow_16ms();
-	//TIM0_overflow_interrupt_enable();
+	TIM1_overflow_262ms();
+	TIM1_overflow_interrupt_enable();
 	// Enables interrupts by setting the global interrupt mask
 	sei();
 	
 	while(1){
-		Display(setting, data[setting]);			//Update the display
 		
-		//data[0] = DistanceSensorValue(full);		//Update the water level
-		//data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
+		Display(setting, data[setting]);			//Update the display
+		data[0] = DistanceSensorValue(full);		//Update the water level
+		data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
 		
 		/*if(DistanceSensorValue >= full - 0,2){				//When tank is at the edge of overflow
 			while(DistanceSensorValue >= full - 0,5){		//open valve to maintain it at 0,5m from overflow
@@ -228,7 +224,7 @@ int main(void)
 			}
 			ValveSet(data[1]);		//Return the valve to the preselected value
 		}*/
-		setting=ReadKeys(setting,*data);
+		setting=ReadKeys(setting,*data,ADC);
 
 	}
 }
@@ -239,18 +235,19 @@ int main(void)
  * Purpose:  Update the stopwatch on LCD display every sixth overflow,
  *           ie approximately every 100 ms (6 x 16 ms = 100 ms).
  **********************************************************************/
-/*
+
 ISR(ADC_vect) //When the keypad is touched start the interrupt
 {
-	setting= ReadKeys(setting,*data);	//analize the meaning of the pressed button
+	
+	setting = ReadKeys(setting, data, ADC);	//analize the meaning of the pressed button
 	ValveSet(data[1]);					//Update Valve status
 	PumpSet(data[2]);					//Update pump status
 }
 
 
-ISR(TIMER0_OVF_vect)
+ISR(TIMER1_OVF_vect)
 {
 	// Start ADC conversion
 	ADCSRA |= (1<<ADSC);
 
-}*/
+}
