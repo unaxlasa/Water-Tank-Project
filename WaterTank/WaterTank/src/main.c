@@ -15,8 +15,6 @@
 #include <stdlib.h>         // C library. Needed for conversion function
 #include "bme280.h"			//add Library to control the BME
 #include "hc-sr04.h"
-#include "bme280.c"		
-#include "hc-sr04.c"
 #include <math.h>
 
 
@@ -28,7 +26,7 @@ uint8_t setting = 0;	//Defines what the LCD while display
 bme280_init();
 init_ultrasonic_sensor();
 lcd_init(LCD_DISP_ON);
-
+sei();
 
 /* Function definitions ----------------------------------------------*/
 /**********************************************************************
