@@ -1,0 +1,6 @@
+Editatu hc-sr04.c
+
+Portu hauek erabil ditzala.
+
+B3 Triggerranrentzat (ya inda dao)
+C0 edo B2 (berdin zait) para el echo.

@@ -60,7 +60,7 @@ ISR(TIMER1_CAPT_vect)
 
 void init_ultrasonic_sensor()
 {
-    // Trigger pin as output, connected to the sensor Pin 3
+    // Trigger pin as output, connected to the sensor Pin B3
     HCSR_TRIGGER_DDR |= (1 << HCSR_TRIGGER);
 
     //****TIMER1 INIT****//
