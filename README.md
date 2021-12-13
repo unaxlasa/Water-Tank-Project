@@ -42,10 +42,20 @@ In order to do this project we had to use several libraries, some of them from p
 
 &nbsp;
 We use all 3 timers in our project, in the table below you can see why and with which prescaler we use the them,
-|           TIMER          | PRESCALER |                                                                    REASON                                                                          |
-|:------------------------:|:---------:|:---------------------------------------------------------------------------------------------------------------------------------------------------|
-|      `Timer/Counter1`      |    ms    |                                                     |
-|      `Timer/Counter1`      |    ms    |                                                   |
+|           TIMER          | PRESCALER | REASON |        
+|:------------------------:|:------------------------------------:|:---:|
+|      `Timer/Counter1`      |    ms    |                         |
+|      `Timer/Counter1`      |    ms    |                         |
+&nbsp;
+
+&nbsp;
+| FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
+|:-----------:|:------------------------------------:|:---:|:--:|
+|      `Display()`      |   uint8_t setting,uint8_t value    | None | Displays different display settings. |
+|      `PressureGetValue()`      |   uint8_t waterlevel  | uint8_t  | Returns the pressure value at the bottom of the tank.  |
+| `PumpSet()` | uint8_t state |  None |  Update the values of distance and pressure. |
+| `ValveSet()` | uint8_t openper | None | Moves the servo motor to the porcentage introduced  |
+| `ReadKeys()` | uint8_t setting, uint8_t *data[4], int value | uint8_t newset | Proccess the press of the button, by changing the data when is posible.
 &nbsp;
 
 ## Software
