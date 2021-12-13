@@ -87,8 +87,6 @@ void init_ultrasonic_sensor()
     //CPU-speed / Prescale = cycles/sec. 1sec/ freq./sec. = 4 (t= 4us/cycle)
     us_per_count = 4;
 
-    //activate global interrupt
-    sei();
 }
 
 float get_dist()

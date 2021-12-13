@@ -25,7 +25,7 @@
 
 uint8_t full = 100; //The size of the tank in hight [m]
 //Data will store: Depth, Valve open %, Pump state, Pressure
-uint16_t data[4]= {60,80,0,0};	//Array storing the sensors measured values
+uint16_t data[5]= {60,80,0,0,70};	//Array storing the sensors measured values
 int8_t setting = 1;	//Defines what the LCD while display
 uint8_t repeat=0;
 int32_t stop;
@@ -93,6 +93,17 @@ uint8_t ReadKeys( uint8_t setting, int value);
 			 lcd_gotoxy(5,1);
 			 lcd_puts("Pa");
 			 break;
+		 case 4:
+			 itoa(data[setting],lcd_string,10);
+			 lcd_puts(lcd_string);
+			 lcd_gotoxy(2,1);
+			 lcd_puts(" ");
+			 lcd_gotoxy(0,0);
+			 lcd_puts("Humid:");
+			 lcd_gotoxy(5,1);
+			 lcd_puts("%");
+			 break;
+		 
 	 } 
  }
 
@@ -120,6 +131,23 @@ uint8_t PressureGetValue(){
 	return data[3];
 }
 
+uint8_t HumidGetValue(){
+	if (repeat>20){
+		float humid;
+		TIM1_stop();
+		bme280_init();
+		//humid = bme280_readHumiditiy(); //Presure in Pa
+		TIM1_stop();
+		lcd_init(LCD_DISP_ON);
+		repeat=0;
+		return round(humid); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+	}
+	else{
+		repeat++;
+	}
+	return data[3];
+}
+
 /* Function definitions ----------------------------------------------*/
 /**********************************************************************
  * Function: Main function where the program execution begins
@@ -138,8 +166,7 @@ void PumpToggle(){
 }
 
 void ValveSet(uint8_t openper){ //Set the opening range of valve % form
-	setupServoTimer(PORTB, SERVO_PIN);
-	moveServoTimer(openper);
+	setupServo(&PORTD,SERVO_PIN,openper);	
 }
 
 /* Function definitions ----------------------------------------------*/
@@ -208,8 +235,10 @@ uint8_t ReadKeys( uint8_t setting, int value){
 int8_t DistanceSensorValue(uint8_t full){
 	if (repeat>20){
 		repeat=0;
-		
-		//return round((full + get_dist())/100000000);
+		TIM1_stop();
+		init_ultrasonic_sensor();
+		return round((full + get_dist())/100000000);
+		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
 	}
 	else{
@@ -241,10 +270,7 @@ void main(void){
 	// Enable ADC module
 	ADCSRA |= (1<<ADEN);
 	// Enable conversion complete interrupt
-	ADCSRA |= (1<<ADIE);
-	// Set clock prescaler to 128
-	ADCSRA |= (1<<ADPS0 | 1<<ADPS1| 1<<ADPS2);
-	// Configure 16-bit Timer/Counter1 to start ADC conversion
+	sei();
 
 	
 	while(1){
