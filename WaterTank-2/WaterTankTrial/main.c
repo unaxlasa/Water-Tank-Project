@@ -33,11 +33,12 @@ int32_t stop;
 //Function Declaration:
 void main();
 int8_t DistanceSensorValue(uint8_t full);
-uint8_t PressureGetValue();
+uint16_t PressureGetValue();
 void Display(uint8_t setting);
 void PumpToggle();
 void ValveSet(uint8_t openper);
 uint8_t ReadKeys( uint8_t setting, int value);
+uint16_t HumidGetValue();
 
 
 /* Function definitions ----------------------------------------------*/
@@ -94,6 +95,7 @@ uint8_t ReadKeys( uint8_t setting, int value);
 			 lcd_puts("Pa");
 			 break;
 		 case 4:
+			 data[4] = HumidGetValue();
 			 itoa(data[setting],lcd_string,10);
 			 lcd_puts(lcd_string);
 			 lcd_gotoxy(2,1);
@@ -114,7 +116,7 @@ uint8_t ReadKeys( uint8_t setting, int value);
  * Returns:  The pressure at the bottom of the tank
  **********************************************************************/
 
-uint8_t PressureGetValue(){
+uint16_t PressureGetValue(){
 	if (repeat>20){
 		data[0]=DistanceSensorValue(full);
 		TIM1_stop();
@@ -123,7 +125,8 @@ uint8_t PressureGetValue(){
 		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
 		repeat=0;
-		return round((data[0]-distance)*9800/10000); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+		return distance;
+		//return round((data[0]-distance)*9800/10000); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
 	}
 	else{
 		repeat++;
@@ -131,21 +134,21 @@ uint8_t PressureGetValue(){
 	return data[3];
 }
 
-uint8_t HumidGetValue(){
+uint16_t HumidGetValue(){
 	if (repeat>20){
 		float humid;
 		TIM1_stop();
 		bme280_init();
-		//humid = bme280_readHumiditiy(); //Presure in Pa
+		humid = bme280_readHumiditiy(); //Presure in Pa
 		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
 		repeat=0;
-		return round(humid); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+		return round(humid*10); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
 	}
 	else{
 		repeat++;
 	}
-	return data[3];
+	return data[4];
 }
 
 /* Function definitions ----------------------------------------------*/
@@ -182,7 +185,7 @@ uint8_t ReadKeys( uint8_t setting, int value){
 
 	if(value>80 && value<120){ //Up
 		if(newset<1||newset>50){
-			newset= 3;
+			newset= 4;
 		}
 		else{
 			newset = newset -1;		//UP is pressed 120. Change the display setting.
@@ -192,7 +195,7 @@ uint8_t ReadKeys( uint8_t setting, int value){
 	}
 	
 	if(value>200 && value< 300){ //DOWN
-		if(newset>2){
+		if(newset>3){
 			newset = 0;
 		}
 		else{
@@ -237,7 +240,7 @@ int8_t DistanceSensorValue(uint8_t full){
 		repeat=0;
 		TIM1_stop();
 		init_ultrasonic_sensor();
-		return round((full + get_dist())/100000000);
+		return round((full + get_dist())/10);
 		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
 	}
