@@ -25,10 +25,18 @@
 
 uint8_t full = 100; //The size of the tank in hight [m]
 //Data will store: Depth, Valve open %, Pump state, Pressure
-uint8_t data[4]= {60,80,0,0};	//Array storing the sensors measured values
-static uint8_t setting = 2;	//Defines what the LCD while display
+uint16_t data[4]= {60,80,0,0};	//Array storing the sensors measured values
+uint8_t setting = 1;	//Defines what the LCD while display
+uint8_t repeat=0;
 
-
+//Function Declaration:
+int main();
+int8_t DistanceSensorValue(uint8_t full);
+uint8_t PressureGetValue(uint8_t waterlevel);
+void Display(uint8_t setting);
+void PumpToggle();
+void ValveSet(uint8_t openper);
+uint8_t ReadKeys( uint8_t setting, int value);
 
 
 /* Function definitions ----------------------------------------------*/
@@ -37,32 +45,35 @@ static uint8_t setting = 2;	//Defines what the LCD while display
  * Purpose:  Shows the data the user wants.
  * Returns:  none
  **********************************************************************/
- void Display(uint8_t setting,uint8_t value){
+ void Display(uint8_t setting){
  
 	 char lcd_string[2] = " ";
- 
-	
-	 itoa(value,lcd_string,10);
 	 lcd_gotoxy(0,1);
- 
+	 
 	 switch (setting)					//Defines the display of each setting
 	 {
 		 case 0:		//Depth
-			lcd_puts(lcd_string);
+			 data[0] = DistanceSensorValue(full);		//Update the water level
+			 itoa(data[setting],lcd_string,10);
+			 lcd_puts(lcd_string);
 			 lcd_gotoxy(0,0);
 			 lcd_puts("Depth:");
 			 lcd_gotoxy(5,1);
 			 lcd_puts("cm");
 			 break;
 		 case 1:		//Valve open ratio
+			 itoa(data[setting],lcd_string,10);
 			 lcd_puts(lcd_string);
+			 lcd_gotoxy(2,1);
+			 lcd_puts(" ");
 			 lcd_gotoxy(0,0);
 			 lcd_puts("Valve:");
 			 lcd_gotoxy(5,1);
 			 lcd_puts("%");
 			 break;
 		 case 2:		//Pump state
-			 if(value==1){
+			 itoa(data[setting],lcd_string,10);
+			 if(data[setting]==1){
 				 lcd_puts("On ");
 			 }
 			 else{
@@ -72,6 +83,8 @@ static uint8_t setting = 2;	//Defines what the LCD while display
 			 lcd_puts("Pump:");
 			 break;
 		 case 3:		//Pressure
+			 data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
+			 itoa(data[setting],lcd_string,10);
 			 lcd_puts(lcd_string);
 			 lcd_gotoxy(0,0);
 			 lcd_puts("Pressure:");
@@ -89,8 +102,17 @@ static uint8_t setting = 2;	//Defines what the LCD while display
  **********************************************************************/
 
 uint8_t PressureGetValue(uint8_t waterlevel){
-	float distance = bme280_readPressure(); //Presure in Pa
-	return round((waterlevel-distance)*9800/1000); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+	if (repeat>50){
+		TIM1_stop();
+		float distance = bme280_readPressure(); //Presure in Pa
+		lcd_init(LCD_DISP_ON);
+		repeat=0;
+		return round((waterlevel-distance)*9800/10000); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+	}
+	else{
+		repeat++;
+	}
+	return data[3];
 }
 
 /* Function definitions ----------------------------------------------*/
@@ -108,11 +130,10 @@ void PumpToggle(){
 	else{
 		GPIO_write_low(&PORTD,1);
 	}
-	
 }
 
 void ValveSet(uint8_t openper){ //Set the opening range of valve % form
-	setupServoTimer(&DDRB, SERVO_PIN);
+	setupServoTimer(PORTB, SERVO_PIN);
 	moveServoTimer(openper);
 }
 
@@ -128,7 +149,7 @@ uint8_t ReadKeys( uint8_t setting, int value){
 	int8_t newset = setting;	
 
 	if(value>80 && value<120){ //Up
-		if(newset<1|newset>50){
+		if(newset<1||newset>50){
 			newset= 3;
 		}
 		else{
@@ -180,7 +201,14 @@ uint8_t ReadKeys( uint8_t setting, int value){
 
 
 int8_t DistanceSensorValue(uint8_t full){
-	return round(full - get_dist()/100);
+	char str;
+	if (repeat>10){
+		repeat=0;
+		return round(full - get_dist()/10000);
+	}
+	else{
+		repeat++;
+	return data[0];
 }
 
 
@@ -197,7 +225,6 @@ int main(void)
 	lcd_init(LCD_DISP_ON);
 	GPIO_config_output(&DDRD, PUMP_PIN);
 	bme280_init();
-	//init_ultrasonic_sensor();
 	// Configure ADC to convert PC0[A0] analog value
 	
 	// Set ADC reference to AVcc
@@ -217,21 +244,27 @@ int main(void)
 	while(1){
 		ADCSRA |= (1<<ADSC);
 		setting=ReadKeys(setting, ADC);
-		Display(setting, data[setting]);			//Update the displayz
+		
 		_delay_ms(200);
+		Display(setting);			//Update the displayz
 		
-		//data[0] = DistanceSensorValue(full);		//Update the water level
-		data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
+		
+		
 		ValveSet(data[1]);
-		
-		/*if(DistanceSensorValue >= full - 0,2){				//When tank is at the edge of overflow
-			while(DistanceSensorValue >= full - 0,5){		//open valve to maintain it at 0,5m from overflow
+		/*
+		if(DistanceSensorValue(full) >= full - 0,2){				//When tank is at the edge of overflow
+			while(DistanceSensorValue(full) >= full - 0,5){		//open valve to maintain it at 0,5m from overflow
 				ValveSet(100);
 			}
-
+		}
+		if(bme280_readHumiditiy()>98){
+			lcd_gotoxy(0,6);
+			lcd_puts("RAIN!");
+		}
+		else{
+			lcd_gotoxy(0,6);
+			lcd_puts("      ");
 		}*/
-		
-
 	}
 }
 

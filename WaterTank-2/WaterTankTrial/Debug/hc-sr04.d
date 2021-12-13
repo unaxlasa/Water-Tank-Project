@@ -15,7 +15,8 @@ hc-sr04.d hc-sr04.o: .././hc-sr04.c \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\interrupt.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
- e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h
+ e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
+ .././timer.h
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -50,3 +51,5 @@ e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\d
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h:
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
+
+.././timer.h:
