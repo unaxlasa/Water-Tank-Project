@@ -37,17 +37,21 @@ In order to do this project we had to use several libraries, some of them from p
 
 **Added libraries:**
 * [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/hc-sr04.h): For using the ultrasonic sensor.
-* [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/ServoC.h): For controlling the servo motor.
+* [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/servo.h): For controlling the servo motor.
 * [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/bme280.h): For using the humidity sensor.
 
-&nbsp;
+
 We use all 3 timers in our project, in the table below you can see why and with which prescaler we use the them,
+&nbsp;
 |           TIMER          | PRESCALER | REASON |        
 |:------------------------:|:------------------------------------:|:---:|
 |      `Timer/Counter1`      |    ms    |                         |
 |      `Timer/Counter1`      |    ms    |                         |
-&nbsp;
 
+
+
+
+Those are some functions we created for the programme.
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
@@ -55,11 +59,15 @@ We use all 3 timers in our project, in the table below you can see why and with 
 |      `PressureGetValue()`      |   uint8_t waterlevel  | uint8_t  | Returns the pressure value at the bottom of the tank.  |
 | `PumpSet()` | uint8_t state |  None |  Update the values of distance and pressure. |
 | `ValveSet()` | uint8_t openper | None | Moves the servo motor to the porcentage introduced  |
-| `ReadKeys()` | uint8_t setting, uint8_t *data[4], int value | uint8_t newset | Proccess the press of the button, by changing the data when is posible.
+| `ReadKeys()` | uint8_t setting, uint8_t *data[4], int value | uint8_t newset | Proccess the press of the button, by changing the data when is posible. |
+| `DistanceSensorValue()` | uint8_t full | int8_t | Update the values of distance and pressure. |
+
+We created a library for the servo motor, [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/servo.h). Those are the functions in it:
 &nbsp;
-
-## Software
-
+| FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
+|:-----------:|:------------------------------------:|:---:|:--:|
+| `setupServoTimer()` | volatile uint8_t *reg_name, uint8_t pin_num | None |Set ups the pin as output an creates the PWM |
+| `moveServoTimer()` | uint8_t porcentage | None | Moves the servo, changing the porcentage to values for the servo |
 
 ## Simulation of Watertank
 * If it is rainy:
