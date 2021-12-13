@@ -26,13 +26,14 @@
 uint8_t full = 100; //The size of the tank in hight [m]
 //Data will store: Depth, Valve open %, Pump state, Pressure
 uint16_t data[4]= {60,80,0,0};	//Array storing the sensors measured values
-uint8_t setting = 1;	//Defines what the LCD while display
+int8_t setting = 1;	//Defines what the LCD while display
 uint8_t repeat=0;
+int32_t stop;
 
 //Function Declaration:
-int main();
+void main();
 int8_t DistanceSensorValue(uint8_t full);
-uint8_t PressureGetValue(uint8_t waterlevel);
+uint8_t PressureGetValue();
 void Display(uint8_t setting);
 void PumpToggle();
 void ValveSet(uint8_t openper);
@@ -75,6 +76,7 @@ uint8_t ReadKeys( uint8_t setting, int value);
 			 itoa(data[setting],lcd_string,10);
 			 if(data[setting]==1){
 				 lcd_puts("On ");
+
 			 }
 			 else{
 				 lcd_puts("Off");
@@ -83,7 +85,7 @@ uint8_t ReadKeys( uint8_t setting, int value);
 			 lcd_puts("Pump:");
 			 break;
 		 case 3:		//Pressure
-			 data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
+			 data[3] = PressureGetValue();		//Update the pressure at the bottom of the tank
 			 itoa(data[setting],lcd_string,10);
 			 lcd_puts(lcd_string);
 			 lcd_gotoxy(0,0);
@@ -101,13 +103,16 @@ uint8_t ReadKeys( uint8_t setting, int value);
  * Returns:  The pressure at the bottom of the tank
  **********************************************************************/
 
-uint8_t PressureGetValue(uint8_t waterlevel){
-	if (repeat>50){
+uint8_t PressureGetValue(){
+	if (repeat>20){
+		data[0]=DistanceSensorValue(full);
 		TIM1_stop();
+		bme280_init();
 		float distance = bme280_readPressure(); //Presure in Pa
+		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
 		repeat=0;
-		return round((waterlevel-distance)*9800/10000); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+		return round((data[0]-distance)*9800/10000); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
 	}
 	else{
 		repeat++;
@@ -146,7 +151,7 @@ void ValveSet(uint8_t openper){ //Set the opening range of valve % form
 
 uint8_t ReadKeys( uint8_t setting, int value){
 	 
-	int8_t newset = setting;	
+	uint8_t newset = setting;	
 
 	if(value>80 && value<120){ //Up
 		if(newset<1||newset>50){
@@ -201,13 +206,15 @@ uint8_t ReadKeys( uint8_t setting, int value){
 
 
 int8_t DistanceSensorValue(uint8_t full){
-	char str;
-	if (repeat>10){
+	if (repeat>20){
 		repeat=0;
-		return round(full - get_dist()/10000);
+		
+		//return round((full + get_dist())/100000000);
+		lcd_init(LCD_DISP_ON);
 	}
 	else{
 		repeat++;
+	}
 	return data[0];
 }
 
@@ -220,11 +227,10 @@ int8_t DistanceSensorValue(uint8_t full){
  * Purpose:  Update the values of distance and pressure.
  * Returns:  none
  **********************************************************************/
-int main(void)
-{
+void main(void){
+	init_ultrasonic_sensor();
 	lcd_init(LCD_DISP_ON);
 	GPIO_config_output(&DDRD, PUMP_PIN);
-	bme280_init();
 	// Configure ADC to convert PC0[A0] analog value
 	
 	// Set ADC reference to AVcc

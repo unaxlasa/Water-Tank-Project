@@ -93,7 +93,6 @@ void init_ultrasonic_sensor()
 
 float get_dist()
 {
-	init_ultrasonic_sensor();
-	TIM1_stop();
+	
     return dist;
 }
