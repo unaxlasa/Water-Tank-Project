@@ -26,7 +26,8 @@
 uint8_t full = 100; //The size of the tank in hight [m]
 //Data will store: Depth, Valve open %, Pump state, Pressure
 uint8_t data[4]= {60,80,0,0};	//Array storing the sensors measured values
-uint8_t setting = 2;	//Defines what the LCD while display
+static uint8_t setting = 2;	//Defines what the LCD while display
+
 
 
 /* Function definitions ----------------------------------------------*/
@@ -101,7 +102,7 @@ uint8_t PressureGetValue(uint8_t waterlevel){
  * Returns:  none
  **********************************************************************/
 
-int PumpSet(uint8_t state){ //Set the pump
+void PumpSet(uint8_t state){ //Set the pump
 	
 	GPIO_toggle(state,PUMP_PIN);
 	if(state==1){
@@ -109,7 +110,6 @@ int PumpSet(uint8_t state){ //Set the pump
 		}else{
 		GPIO_write_low(&PORTD, PUMP_PIN);
 	}
-	return state;
 }
 
 void ValveSet(uint8_t openper){ //Set the opening range of valve % form
@@ -124,23 +124,27 @@ void ValveSet(uint8_t openper){ //Set the opening range of valve % form
  * Returns:  The setting value the user wants to see.
  **********************************************************************/
 
-uint8_t ReadKeys( uint8_t setting, uint8_t *data[4], int value){
+uint8_t ReadKeys( uint8_t setting, int value){
 	 
 	int8_t newset = setting;	
 
 	if(value>80 && value<120){ //Up
-		newset = newset -1;		//UP is pressed 120. Change the display setting.
-		if(newset<0){
+		if(newset==0){
 			newset= 3;
+		}
+		else{
+			newset = newset -1;		//UP is pressed 120. Change the display setting.
 		}
 		lcd_gotoxy(0,0);
 		lcd_puts("                                                                                                       "); //Resets screen
 	}
 	
 	if(value>200 && value< 300){ //DOWN
-		newset= setting + 1;
-		if(newset>3){
+		if(newset==3){
 			newset = 0;
+		}
+		else{
+			newset= setting + 1;
 		}
 		lcd_gotoxy(0,0);
 		lcd_puts("                                                                                                       "); //Resets screen
@@ -148,19 +152,19 @@ uint8_t ReadKeys( uint8_t setting, uint8_t *data[4], int value){
 	
 	if(value>390 && value<430){ //LEFT //When left button is pressed 410.
 		if (setting==1 & data[setting] != 0 ){
-			*data[setting]=*data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
+			data[setting]=data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
 		}
 		if(setting==2){
-			PumpSet(*data[2]);
+			PumpSet(data[2]);
 		}
 	}
 	
 	if(value < 80){ //Right
-		if(*data[setting] != 100 && setting==1){
-			*data[setting]=*data[setting]+5;	//If it is possible to edit increase the value
+		if(data[setting] != 100 && setting==1){
+			data[setting]=data[setting]+5;	//If it is possible to edit increase the value
 		}
 		if(setting==2){
-			PumpSet(*data[2]);
+			PumpSet(data[2]);
 		}
 	}
 	return newset;
@@ -191,8 +195,8 @@ int8_t DistanceSensorValue(uint8_t full){
 int main(void)
 {
 	lcd_init(LCD_DISP_ON);
-	GPIO_config_output(&DDRD, PUMP_PIN);
-	bme280_init();
+	//GPIO_config_output(&DDRD, PUMP_PIN);
+	//bme280_init();
 	//init_ultrasonic_sensor();
 	// Configure ADC to convert PC0[A0] analog value
 	
@@ -208,18 +212,15 @@ int main(void)
 	// Set clock prescaler to 128
 	ADCSRA |= (1<<ADPS0 | 1<<ADPS1| 1<<ADPS2);
 	// Configure 16-bit Timer/Counter1 to start ADC conversion
-	// Set prescaler to 262 ms and enable overflow interrupt
-	//TIM1_overflow_262ms();
-	//TIM1_overflow_interrupt_enable();
-	// Enables interrupts by setting the global interrupt mask
-	//sei();
 	
 	while(1){
 		ADCSRA |= (1<<ADSC);
-		_delay_ms(200);
+		setting=ReadKeys(setting, ADC);
 		Display(setting, data[setting]);			//Update the displayz
-		data[0] = DistanceSensorValue(full);		//Update the water level
-		data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
+		_delay_ms(200);
+		
+		//data[0] = DistanceSensorValue(full);		//Update the water level
+		//data[3] = PressureGetValue(data[0]);		//Update the pressure at the bottom of the tank
 		
 		/*if(DistanceSensorValue >= full - 0,2){				//When tank is at the edge of overflow
 			while(DistanceSensorValue >= full - 0,5){		//open valve to maintain it at 0,5m from overflow
@@ -227,30 +228,9 @@ int main(void)
 			}
 			ValveSet(data[1]);		//Return the valve to the preselected value
 		}*/
-		setting=ReadKeys(setting,*data, ADC);
+		
 
 	}
 }
 
-/* Interrupt service routines ----------------------------------------*/
-/**********************************************************************
- * Function: Timer/Counter2 overflow interrupt
- * Purpose:  Update the stopwatch on LCD display every sixth overflow,
- *           ie approximately every 100 ms (6 x 16 ms = 100 ms).
- **********************************************************************/
 
-ISR(ADC_vect) //When the keypad is touched start the interrupt
-{
-	Display(setting, data[setting]);
-	setting = ReadKeys(setting, data, ADC);	//analize the meaning of the pressed button
-	ValveSet(data[1]);					//Update Valve status
-	PumpSet(data[2]);					//Update pump status
-}
-
-
-ISR(TIMER1_OVF_vect)
-{
-	// Start ADC conversion
-	ADCSRA |= (1<<ADSC);
-
-}
