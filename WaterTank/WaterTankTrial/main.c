@@ -99,6 +99,7 @@ uint8_t PressureGetValue(uint8_t waterlevel){
  * Returns:  none
  **********************************************************************/
 
+<<<<<<< HEAD
 void PumpToggle(){
 	data[2]=!data[2];
 	if(data[2]==1){
@@ -108,6 +109,16 @@ void PumpToggle(){
 		GPIO_write_low(&PORTD,1);
 	}
 	
+=======
+void PumpSet(uint8_t state){ //Set the pump
+	
+	GPIO_toggle(state,PUMP_PIN);
+	if(state==1){
+		GPIO_write_high(&PORTD, PUMP_PIN);
+		}else{
+		GPIO_write_low(&PORTD, PUMP_PIN);
+	}
+>>>>>>> c058316a4715646229da796ef0ca764e970e4cf2
 }
 
 void ValveSet(uint8_t openper){ //Set the opening range of valve % form
@@ -149,12 +160,20 @@ uint8_t ReadKeys( uint8_t setting, int value){
 	}
 	
 	if(value>390 && value<430){ //LEFT //When left button is pressed 410.
+<<<<<<< HEAD
 		if (setting==1 && data[setting] != 0 ){
 			data[setting]=data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
 		}
 		if(setting==2){
 			PumpToggle();
 			
+=======
+		if (setting==1 & data[setting] != 0 ){
+			data[setting]=data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
+		}
+		if(setting==2){
+			PumpSet(data[2]);
+>>>>>>> c058316a4715646229da796ef0ca764e970e4cf2
 		}
 	}
 	
@@ -163,7 +182,11 @@ uint8_t ReadKeys( uint8_t setting, int value){
 			data[setting]=data[setting]+5;	//If it is possible to edit increase the value
 		}
 		if(setting==2){
+<<<<<<< HEAD
 			PumpToggle();
+=======
+			PumpSet(data[2]);
+>>>>>>> c058316a4715646229da796ef0ca764e970e4cf2
 		}
 	}
 	return newset;
@@ -194,8 +217,8 @@ int8_t DistanceSensorValue(uint8_t full){
 int main(void)
 {
 	lcd_init(LCD_DISP_ON);
-	GPIO_config_output(&DDRD, PUMP_PIN);
-	bme280_init();
+	//GPIO_config_output(&DDRD, PUMP_PIN);
+	//bme280_init();
 	//init_ultrasonic_sensor();
 	// Configure ADC to convert PC0[A0] analog value
 	
