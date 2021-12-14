@@ -15,7 +15,8 @@ servo.d servo.o: .././servo.c \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h \
- e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h
+ e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
+ .././timer.h
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\avr\io.h:
 
@@ -50,3 +51,5 @@ e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\d
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h:
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
+
+.././timer.h:

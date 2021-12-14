@@ -10,7 +10,7 @@
 #define SERVO_H
 
 
-void setupServo(volatile uint8_t *reg_name, uint8_t pin_num, uint8_t porcentage);
+void setupServo(uint8_t porcentage);
 
 /*Moves the servo using the delay, changing the porcentage to time*/
 

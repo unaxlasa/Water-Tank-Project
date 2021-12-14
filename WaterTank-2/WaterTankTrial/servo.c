@@ -2,27 +2,43 @@
  * CFile1.c
  *
  * Created: 11/12/2021 11:40:13
- *  Author: ander
- */ 
+ *  Author: 
+ */
 
+#define  PIN_NUM PD2
 #define F_CPU 16000000	/* Define CPU Frequency e.g. here its 8MHz */
 #include <avr/io.h>		/* Include AVR std. library file */
 #include <stdio.h>		/* Include std. library file */
 #include <util/delay.h>		/* Include Delay header file */
 #include <math.h>
+#include "timer.h"
 
+uint8_t counter = 0;
+uint8_t cicle_ON;
+#define TOTAL_SIGNAL
 
-void setupServo(volatile uint8_t *reg_name, uint8_t pin_num, uint8_t porcentage)
+void setupServo( uint8_t porcentage)
 {
-	reg_name = *reg_name | (1<<pin_num); /*Set up as output/
-	TCNT1 = 0;		/* Set timer1 count zero */
-	ICR1 = 39999;		/* Set TOP count for timer1 in ICR1 register */
-	TCCR1A =  (1 << COM1A1) | (0 << COM1A0) ; // When the compare match is the same we set it low
-	TCCR1A |=  (1 << WGM11) | (0 << WGM10) ; // Fast PWM: TOP: ICR1
-	TCCR1B = (1 << WGM13) | (1 << WGM12); // // Fast PWM: TOP: ICR1
-	TCCR1B |= (0 << CS12) | (1 << CS11) | ( 0 << CS10 ); // Preesc = 8
-	uint8_t timePWM;
-	timePWM = round((porcentage*2000)/90);
-	OCR1B = timePWM;
+	GPIO_config_output(&DDRD,PIN_NUM);
+	
+	TIM0_overflow_16us(); //16
+	cicle_ON= round(62.5 + 31.25*porcentage/100);
+	TIM0_overflow_interrupt_enable();
+	counter++;
+	while(counter!=0){
+		
+	}
+	
+}
+
+ISR(TIMER0_COMPA_vect){
+	counter++;
+	if(counter<cicle_ON){
+		GPIO_write_high(&DDRD,PIN_NUM);
+	}
+	else{
+		GPIO_write_low(&DDRD,PIN_NUM);
+		counter=0;
+	}
 }
 
