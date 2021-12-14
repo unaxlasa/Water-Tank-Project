@@ -24,11 +24,12 @@
 
 
 uint8_t full = 100; //The size of the tank in hight [m]
-//Data will store: Depth, Valve open %, Pump state, Pressure
+//Data will store: Depth, Valve open %, Pump state, Pressure,Humdity
 uint16_t data[5]= {60,80,0,0,70};	//Array storing the sensors measured values
 int8_t setting = 1;	//Defines what the LCD while display
 uint8_t repeat=0;
-int32_t stop;
+uint8_t check_period =0;
+
 
 //Function Declaration:
 void main();
@@ -125,8 +126,7 @@ uint16_t PressureGetValue(){
 		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
 		repeat=0;
-		return distance;
-		//return round((data[0]-distance)*9800/10000); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+		return round((data[0]-distance)*9.8); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
 	}
 	else{
 		repeat++;
@@ -135,15 +135,27 @@ uint16_t PressureGetValue(){
 }
 
 uint16_t HumidGetValue(){
-	if (repeat>20){
+	if (repeat>10){
 		float humid;
 		TIM1_stop();
 		bme280_init();
+<<<<<<< HEAD
 //		humid = bme280_readHumiditiy(); //Presure in Pa
+=======
+		//humid = bme280_readHumiditiy(); //Presure in Pa
+>>>>>>> 3e865e1453e7164562565de71a9992377494b151
 		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
 		repeat=0;
-		return round(humid*10); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
+		if(humid>98){
+			lcd_gotoxy(0,6);
+			lcd_puts("RAIN!");
+		}
+		else{
+			lcd_gotoxy(0,6);
+			lcd_puts("      ");
+		}
+		return round(humid); //Formula to get the pressure at the bottom of the tank (supposing 10m) [KPa]
 	}
 	else{
 		repeat++;
@@ -169,7 +181,12 @@ void PumpToggle(){
 }
 
 void ValveSet(uint8_t openper){ //Set the opening range of valve % form
-	setupServo(&PORTD,SERVO_PIN,openper);	
+	setupServo(openper);
+	_delay_ms(2000);
+	GPIO_write_low(&PORTD,PD0);
+	lcd_init(LCD_DISP_ON);
+	
+	
 }
 
 /* Function definitions ----------------------------------------------*/
@@ -208,16 +225,17 @@ uint8_t ReadKeys( uint8_t setting, int value){
 	if(value>390 && value<430){ //LEFT //When left button is pressed 410.
 		if (setting==1 && data[setting] != 0 ){
 			data[setting]=data[setting]-5;	//If it is possible to effit the number is bigger than 5 decrease the value in jumps of 5
+			ValveSet(data[setting]);
 		}
 		if(setting==2){
 			PumpToggle();
-			
 		}
 	}
 	
 	if(value < 80){ //Right
 		if(data[setting] != 100 && setting==1){
 			data[setting]=data[setting]+5;	//If it is possible to edit increase the value
+			ValveSet(data[setting]);
 		}
 		if(setting==2){
 			PumpToggle();
@@ -236,13 +254,15 @@ uint8_t ReadKeys( uint8_t setting, int value){
 
 
 int8_t DistanceSensorValue(uint8_t full){
-	if (repeat>20){
+	if (repeat>10){
 		repeat=0;
 		TIM1_stop();
 		init_ultrasonic_sensor();
-		return round((full + get_dist())/10);
+		float distance = get_dist();
 		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
+		return round((full -distance)/10);
+		
 	}
 	else{
 		repeat++;
@@ -263,6 +283,7 @@ void main(void){
 	init_ultrasonic_sensor();
 	lcd_init(LCD_DISP_ON);
 	GPIO_config_output(&DDRD, PUMP_PIN);
+	GPIO_config_output(&DDRD, PD0);
 	// Configure ADC to convert PC0[A0] analog value
 	
 	// Set ADC reference to AVcc
@@ -277,29 +298,21 @@ void main(void){
 
 	
 	while(1){
+		
 		ADCSRA |= (1<<ADSC);
 		setting=ReadKeys(setting, ADC);
-		
 		_delay_ms(200);
 		Display(setting);			//Update the displayz
 		
-		
-		
-		ValveSet(data[1]);
-		/*
-		if(DistanceSensorValue(full) >= full - 0,2){				//When tank is at the edge of overflow
-			while(DistanceSensorValue(full) >= full - 0,5){		//open valve to maintain it at 0,5m from overflow
-				ValveSet(100);
-			}
-		}
-		if(bme280_readHumiditiy()>98){
-			lcd_gotoxy(0,6);
-			lcd_puts("RAIN!");
+		if(check_period > 6){					//Even if the setting is not meassure all values in backgraunds every 40 loops (6*20/3)
+			data[0]= DistanceSensorValue(full);
+			data[3]=PressureGetValue();
+			data[4]=HumidGetValue();
+			check_period++;
 		}
 		else{
-			lcd_gotoxy(0,6);
-			lcd_puts("      ");
-		}*/
+			check_period=0;
+		}
 	}
 }
 
