@@ -139,7 +139,7 @@ uint16_t HumidGetValue(){
 		float humid;
 		TIM1_stop();
 		bme280_init();
-		humid = bme280_readHumiditiy(); //Presure in Pa
+//		humid = bme280_readHumiditiy(); //Presure in Pa
 		TIM1_stop();
 		lcd_init(LCD_DISP_ON);
 		repeat=0;
