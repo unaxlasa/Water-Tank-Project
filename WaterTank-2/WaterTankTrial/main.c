@@ -177,9 +177,8 @@ void PumpToggle(){
 }
 
 void ValveSet(uint8_t openper){ //Set the opening range of valve % form
+	TIM1_stop();
 	setupServo(openper);
-	_delay_ms(2000);
-	GPIO_write_low(&PORTD,PD0);
 	lcd_init(LCD_DISP_ON);
 	
 	
@@ -279,7 +278,6 @@ void main(void){
 	init_ultrasonic_sensor();
 	lcd_init(LCD_DISP_ON);
 	GPIO_config_output(&DDRD, PUMP_PIN);
-	GPIO_config_output(&DDRD, PD0);
 	// Configure ADC to convert PC0[A0] analog value
 	
 	// Set ADC reference to AVcc

@@ -12,19 +12,18 @@
 #include <util/delay.h>		/* Include Delay header file */
 #include <math.h>
 #include "timer.h"
+#include "lcd.h"
 
-uint16_t counter;
-uint16_t cicle_ON;
 
 
 void setupServo( uint8_t porcentage)
 {
-	TCNT1 = 0;		/* Set timer1 count zero */
-	ICR1 = 39999;		/* Set TOP count for timer1 in ICR1 register */
-	TCCR2A =  (1 << COM1A1) | (0 << COM1A0) ; // When the compare match is the same we set it low
-	TCCR2A |=  (1 << WGM11) | (0 << WGM10) ; // Fast PWM: TOP: ICR1
-	TCCR2B = (1 << WGM13) | (1 << WGM12); // // Fast PWM: TOP: ICR1
-	TCCR2B |= (0 << CS12) | (1 << CS11) | ( 0 << CS10 ); // Preesc = 8
-	OCR2B=2000;
-}
+	lcd_init(LCD_DISP_OFF);
+	DDRD |= (1<<PD5);    //Fast PWM output at OC0B pin
 
+	OCR0A = 255;	// Top Value of 200(must be equal or greater than Duty Cycle)
+	OCR0B = 2.5*(0.030517*porcentage+9.155)/100-1;	// Duty cycle of 75%
+	TCCR0A |= (1<<COM0B1) | (1<<WGM01) | (1<<WGM00);	//Non-Inverting Fast PWM mode 7
+	TCCR0B |= (1<<WGM02) | (1<<CS01) | (1<<CS02);	//No-Prescalar
+
+}
