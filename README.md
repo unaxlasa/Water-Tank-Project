@@ -1,5 +1,9 @@
 # Water-Tank-Project 🚰
 
+<p align="center">
+  <img width="600" height="400" src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/water-tank.jpg">
+</p>
+
 ### Team members
 [Ander Marin](https://github.com/andermarin), [Unai Telletxea](https://github.com/UTAN25), [Dogancan Gurbuz](https://github.com/DogancanG) and [Unax Lasa](https://github.com/unaxlasa)
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
@@ -14,7 +18,9 @@ The objective of this project is to control a water tank using ATMega328p microc
 
 **Here the flowchart of our programm:**
 
-![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Flowchart.drawio.png)
+<p align="center">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Flowchart.drawio.png">
+</p>
 
 ## Hardware description
 - 1x Microcontroller (ATMega328p)
@@ -23,7 +29,7 @@ The objective of this project is to control a water tank using ATMega328p microc
 - 1x Micro servo (SG-90)
 - 1x LCD
 
-* Connections:
+*Connections:*
 
 ![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Connections.jpeg)
 
