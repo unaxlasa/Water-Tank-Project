@@ -1,15 +1,16 @@
 # Water-Tank-Project 🚰
 
+<p align="center">
+  <img width="600" height="400" src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/water-tank.jpg">
+</p>
+
 ### Team members
 [Ander Marin](https://github.com/andermarin), [Unai Telletxea](https://github.com/UTAN25), [Dogancan Gurbuz](https://github.com/DogancanG) and [Unax Lasa](https://github.com/unaxlasa)
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### Readme.md
-
 [Here](https://github.com/unaxlasa/Water-Tank-Project/blob/main/README.md) the link to the Readme file.
 
-### Project objectives
-The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water while it is empty or filling the tank during the day, the sensors checked it is rainy or not. If the tank full the system close the pump till the water level decreased. It is the same situation about valve, if the tank empty the valve is closed till the water level increased. If it is raining the valve will stay half open.
-
+## Project objectives
+The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water, check the rain. Also, we are going to use a water-pump, when the level of the water is low, we will pump water into the tank. We will have a butterfly valve at the output pipe, in order to regulate the water flow; if its raining the valve woul be half open (45º), if the tank is full the valve will be full open (90º). We will have a LCD to display and manipulate all the variables of the tank.
 ## Circuit Diagram and Flowchart
 **Circuit Diagram**
 
@@ -17,7 +18,9 @@ The objective of this project is to control a water tank using ATMega328p microc
 
 **Here the flowchart of our programm:**
 
-![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Flowchart.drawio.png)
+<p align="center">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Flowchart.drawio.png">
+</p>
 
 ## Hardware description
 - 1x Microcontroller (ATMega328p)
@@ -26,14 +29,26 @@ The objective of this project is to control a water tank using ATMega328p microc
 - 1x Micro servo (SG-90)
 - 1x LCD
 
+*Connections:*
+
+![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Connections.jpeg)
+
 ## Code description and simulations
 In order to do this project we had to use several libraries, some of them from previous laboratory excercises. We had to add libraries for the servo motor, ultrasonic sensorand humidity, temperature and barometric sensor. We created our own library `servo.h` which you can find it [here](WaterTank/WaterTank/src/ServoC.h).
 
 **Libraries from previous labs:**
 * avr/io.h: AVR input/output definitions.
+* avr/interrupt.h: For AVR-GCC standard interruptors.
+* stdlib.h: For conversion functions-
+* gpio.h: For configuration and manipulation of I/O.
+* math.h: For mathematical operations. 
+* stdio.h: For variables and I/O functions.
+* util/delay.h: For dalays.
 * [lcd.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/lcd.h): For using the LCD.
 * [lcd_definitions.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/lcd_definitions.h): For defining the LCD parameters.
 * [timer.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/timer.h): For difining timers.
+* [conf_board.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/conf_board.h): For configurating the board.
+
 
 **Added libraries:**
 * [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/hc-sr04.h): For using the ultrasonic sensor.
@@ -96,12 +111,12 @@ This are functions we used for the humidity sensor, here the library [bme280.h](
 
 
 ## References
-1) [What is flowchart?](https://www.breezetree.com/articles/what-is-a-flow-chart)
-2) [FlowchartMaker](https://app.diagrams.net/)
-3) ...
-4) ...
-5) ...
-6) ...
+1) [FlowchartMaker](https://app.diagrams.net/)
+2) 
+3) 
+4) 
+5) 
+6) 
 7) [ASCII](https://www.asciitable.com/)
 
 
