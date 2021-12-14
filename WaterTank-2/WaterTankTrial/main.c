@@ -24,7 +24,7 @@
 
 
 uint8_t full = 100; //The size of the tank in hight [m]
-//Data will store: Depth, Valve open %, Pump state, Pressure
+//Data will store: Depth, Valve open %, Pump state, Pressure,Humdity
 uint16_t data[5]= {60,80,0,0,70};	//Array storing the sensors measured values
 int8_t setting = 1;	//Defines what the LCD while display
 uint8_t repeat=0;
@@ -178,7 +178,7 @@ void PumpToggle(){
 
 void ValveSet(uint8_t openper){ //Set the opening range of valve % form
 	setupServo(openper);
-	GPIO_write_high(&PORTB,SERVO_PIN);
+	lcd_init(LCD_DISP_ON);
 }
 
 /* Function definitions ----------------------------------------------*/
@@ -275,6 +275,7 @@ void main(void){
 	init_ultrasonic_sensor();
 	lcd_init(LCD_DISP_ON);
 	GPIO_config_output(&DDRD, PUMP_PIN);
+	TIM0_overflow_interrupt_enable();
 	// Configure ADC to convert PC0[A0] analog value
 	
 	// Set ADC reference to AVcc
@@ -294,9 +295,8 @@ void main(void){
 		setting=ReadKeys(setting, ADC);
 		_delay_ms(200);
 		Display(setting);			//Update the displayz
-		ValveSet(data[1]);
 		
-		if(check_period > 6){					//Even if the setting is not meassure all values in backgraunds every 20 loops (6*10/3)
+		if(check_period > 6){					//Even if the setting is not meassure all values in backgraunds every 40 loops (6*20/3)
 			data[0]= DistanceSensorValue(full);
 			data[3]=PressureGetValue();
 			data[4]=HumidGetValue();

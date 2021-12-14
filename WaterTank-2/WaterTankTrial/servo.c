@@ -13,32 +13,28 @@
 #include <math.h>
 #include "timer.h"
 
-uint8_t counter = 0;
-uint8_t cicle_ON;
-#define TOTAL_SIGNAL
+uint16_t counter;
+uint16_t cicle_ON;
+
 
 void setupServo( uint8_t porcentage)
 {
+	counter=0;
 	GPIO_config_output(&DDRD,PIN_NUM);
+	TIM0_overflow_128us(); //16
+	cicle_ON = 7;
+	GPIO_write_high(&PORTD,PIN_NUM);
 	
-	TIM0_overflow_16us(); //16
-	cicle_ON= round(62.5 + 31.25*porcentage/100);
-	TIM0_overflow_interrupt_enable();
-	counter++;
-	while(counter!=0){
-		
-	}
-	
+	while(counter!=0){}
 }
 
-ISR(TIMER0_COMPA_vect){
-	counter++;
-	if(counter<cicle_ON){
-		GPIO_write_high(&DDRD,PIN_NUM);
-	}
-	else{
-		GPIO_write_low(&DDRD,PIN_NUM);
+ISR(TIMER0_OVF_vect){
+	if(cicle_ON < counter){
+		GPIO_write_low(&PORTD,PIN_NUM);
 		counter=0;
+		TIM0_stop();
 	}
+	counter++;
 }
+
 
