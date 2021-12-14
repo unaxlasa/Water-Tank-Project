@@ -8,7 +8,7 @@
 [Here](https://github.com/unaxlasa/Water-Tank-Project/blob/main/README.md) the link to the Readme file.
 
 ### Project objectives
-The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water while it is empty or filling the tank during the day, the sensors checked it is rainy or not. If the tank full the system close the pump till the water level decreased. It is the same situation about valve, if the tank empty the valve is closed till the water level increased. If it is rain the valve stay half open.
+The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water while it is empty or filling the tank during the day, the sensors checked it is rainy or not. If the tank full the system close the pump till the water level decreased. It is the same situation about valve, if the tank empty the valve is closed till the water level increased. If it is raining the valve will stay half open.
 
 ## Circuit Diagram and Flowchart
 **Circuit Diagram**
@@ -62,12 +62,27 @@ Those are some functions we created for the programme.
 | `ReadKeys()` | uint8_t setting, uint8_t *data[4], int value | uint8_t newset | Proccess the press of the button, by changing the data when is posible. |
 | `DistanceSensorValue()` | uint8_t full | int8_t | Update the values of distance and pressure. |
 
-We created a library for the servo motor, [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/servo.h). Those are the functions in it:
+We created a library for the servo motor, [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/servo.h). 
+Those are the functions in it that we used:
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
 | `setupServoTimer()` | volatile uint8_t *reg_name, uint8_t pin_num | None |Set ups the pin as output an creates the PWM |
 | `moveServoTimer()` | uint8_t porcentage | None | Moves the servo, changing the porcentage to values for the servo |
+
+We found some libraries on the internet, in order to control the sensors:
+
+This are functions we used for the ultrasonic sensor, here the library [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/hc-sr04.h).
+&nbsp;
+| FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
+|:-----------:|:------------------------------------:|:---:|:--:|
+| | | | |
+
+This are functions we used for the humidity sensor, here the library [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/bme280.h).
+&nbsp;
+| FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
+|:-----------:|:------------------------------------:|:---:|:--:|
+| | | | |
 
 ## Simulation of Watertank
 * If it is rainy:
