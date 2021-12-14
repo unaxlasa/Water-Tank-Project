@@ -23,9 +23,9 @@
 #include <util/delay.h>
 #include "timer.h"
 
-#define HCSR_TRIGGER PORTB3
-#define HCSR_TRIGGER_PORT PORTB
-#define HCSR_TRIGGER_DDR DDRB
+#define HCSR_TRIGGER PORTD3
+#define HCSR_TRIGGER_PORT PORTD
+#define HCSR_TRIGGER_DDR DDRD
 
 uint16_t rising, falling;
 int counts;
