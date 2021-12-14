@@ -3,13 +3,10 @@
 ### Team members
 [Ander Marin](https://github.com/andermarin), [Unai Telletxea](https://github.com/UTAN25), [Dogancan Gurbuz](https://github.com/DogancanG) and [Unax Lasa](https://github.com/unaxlasa)
 --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-### Readme.md
-
 [Here](https://github.com/unaxlasa/Water-Tank-Project/blob/main/README.md) the link to the Readme file.
 
-### Project objectives
-The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water while it is empty or filling the tank during the day, the sensors checked it is rainy or not. If the tank full the system close the pump till the water level decreased. It is the same situation about valve, if the tank empty the valve is closed till the water level increased. If it is raining the valve will stay half open.
-
+## Project objectives
+The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water, check the rain. Also, we are going to use a water-pump, when the level of the water is low, we will pump water into the tank. We will have a butterfly valve at the output pipe, in order to regulate the water flow; if its raining the valve woul be half open (45º), if the tank is full the valve will be full open (90º). We will have a LCD to display and manipulate all the variables of the tank.
 ## Circuit Diagram and Flowchart
 **Circuit Diagram**
 
