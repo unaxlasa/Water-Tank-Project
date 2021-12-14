@@ -1,96 +1,58 @@
-/**
- * This file is part of HC-SR04 Ultrasonic sensor library.
+/*
+ * main.c
  *
- * Copyright (C) 2019  Jean-Marcel Herzog
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- *
- * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ *  Created on: Jun 13, 2017
+ *      Author: Mina G. Sadek
+ */
+
+#ifdef F_CPU
+#undef F_CPU
+#endif
+#define F_CPU 1600000
+
+#define TRIG_PIN 0
+#define ECHO_PIN 2
+#define TRIG_PORT PORTD
+#define TRIG_DDR  DDRD
+#define ECHO_IN   PIND
+#define ECHO_DDR  DDRD
 
 #include <avr/io.h>
-#include <stdlib.h>
 #include <avr/interrupt.h>
 #include <util/delay.h>
-#include "timer.h"
+#include <stdlib.h>
+#include <math.h>
 
-#define HCSR_TRIGGER PORTD3
-#define HCSR_TRIGGER_PORT PORTD
-#define HCSR_TRIGGER_DDR DDRD
+static volatile int pulse_time = 0;
 
-uint16_t rising, falling;
-int counts;
-float dist;
-uint16_t us_per_count;
 
-ISR(TIMER1_COMPA_vect)
+uint16_t DistanceValue(void)
 {
+	uint8_t distance= 0;
 
-    //Generate a 12us pulse to trigger the HC-SR04
-    HCSR_TRIGGER_PORT ^= (1 << HCSR_TRIGGER);
-    _delay_us(12);
-    HCSR_TRIGGER_PORT ^= (1 << HCSR_TRIGGER);
-}
 
-ISR(TIMER1_CAPT_vect)
-{
-
-    if (TCCR1B & (1 << ICES1))
-    {
-
-        TCCR1B &= ~(1 << ICES1);
-        rising = ICR1;
-    }
-    else
-    {
-        TCCR1B |= (1 << ICES1);
-        falling = ICR1;
-        counts = falling - rising;
-        dist = (float)us_per_count * counts * 10 / 580;
-    }
-}
-
-void init_ultrasonic_sensor()
-{
-    // Trigger pin as output, connected to the sensor Pin B3
-    HCSR_TRIGGER_DDR |= (1 << HCSR_TRIGGER);
-
-    //****TIMER1 INIT****//
-
-    //noice reduction enable
-    TCCR1B |= (1 << ICNC1);
-
-    //Prescale to 64
-    TCCR1B |= (1 << CS10) | (1 << CS11);
-
-    //select CTC mode
-    TCCR1B |= (1 << WGM12);
-
-    //read Int. at: rising edge, falling edge
-    TIMSK1 |= (1 << ICIE1) | (1 << OCIE1A);
-
-    //read Int. at rising edge
-    TCCR1B |= (1 << ICES1);
-
-    //calculate TOP (70ms runtime for one cycle): 16MHz/64 = 25000 count/sec. = 25000/1000 = 2500 count/us / 100*70 = 17500 count/70ms
-    OCR1A = 17500;
-
-    //CPU-speed / Prescale = cycles/sec. 1sec/ freq./sec. = 4 (t= 4us/cycle)
-    us_per_count = 4;
-
-}
-
-float get_dist()
-{
+	while(distance==0){
+		GPIO_write_high(&PORTD,PD0);
+		_delay_us(20);						// trigger the ultrasonic module for 15usec
+		GPIO_write_low(&PORTD,PD0);
+		_delay_ms(10);
+		distance = round(pulse_time * 0.0343 / 2);	// calculate the distance
+	}
+	return distance;
 	
-    return dist;
+}
+
+// This ISR is called automatically when a change on the INT0 pin happens due to the change of the echo pin from the ultrasonic module
+ISR(INT0_vect)
+{
+	if ((ECHO_IN & (1<<ECHO_PIN)) == 0)
+	{
+		// echo changed from HIGH to LOW
+		TCCR1B = 0;		//disabling counter
+		pulse_time = TCNT1;	//count memory is updated to integer
+		TCNT1 = 0;		//resetting the counter memory
+	} else {
+		// echo changed change from LOW to HIGH
+		TCCR1B |= (1<<CS10);//enabling counter
+	}
 }

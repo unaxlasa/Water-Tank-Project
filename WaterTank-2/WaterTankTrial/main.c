@@ -30,7 +30,7 @@ uint16_t data[5]= {60,0,0,0,70};	//Array storing the sensors measured values
 int8_t setting = 1;	//Defines what the LCD while display
 uint8_t repeat=0;
 uint8_t check_period =0;
-int8_t FULL = 100; //The size of the tank in hight [m]
+int8_t FULL = 400; //The size of the tank in hight [m]
 
 
 //Function Declaration:
@@ -146,7 +146,7 @@ uint16_t PressureGetValue(){
 		result=twi_read_nack();
 		twi_stop();
 		repeat=0;
-		uint8_t distance = DistanceSensorValue(full);
+		uint8_t distance = DistanceSensorValue(FULL);
 		return round(result+distance*9.8/100);
 		//return result1<<8&result2;
 	}
@@ -284,12 +284,9 @@ uint8_t ReadKeys( uint8_t setting, int value){
 int8_t DistanceSensorValue(uint8_t FULL){
 	if (repeat>10){
 		repeat=0;
-		TIM1_stop();
-		init_ultrasonic_sensor();
-		float distance = get_dist();
-		TIM1_stop();
+		float distance = DistanceValue();
 		lcd_init(LCD_DISP_ON);
-		return round((FULL -distance)/10);
+		return round(FULL - distance);
 	
 	}
 	else{
@@ -308,9 +305,11 @@ int8_t DistanceSensorValue(uint8_t FULL){
  * Returns:  none
  **********************************************************************/
 void main(void){
-	init_ultrasonic_sensor();
-	lcd_init(LCD_DISP_ON);
+	lcd_init(LCD_DISP_ON);	
 	GPIO_config_output(&DDRD, PUMP_PIN);
+	GPIO_config_output(&DDRD, PD0);
+	EIMSK |= (1<<INT0);	// enable INT0
+	EICRA |= (1<<ISC00);// setting interrupt trigger on any change
 	// Configure ADC to convert PC0[A0] analog value
 	
 	// Set ADC reference to AVcc

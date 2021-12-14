@@ -16,11 +16,10 @@ main.d main.o: .././main.c \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stddef.h \
  .././lcd_definitions.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h \
- .././bme280.h \
+ .././twi.h .././hc-sr04.h .././gpio.h .././servo.h \
+ e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h \
- .././i2c.h .././hc-sr04.h .././gpio.h .././servo.h \
- e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h \
  e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay_basic.h
 
@@ -60,13 +59,7 @@ e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdlib.h:
 
-.././bme280.h:
-
-e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
-
-e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
-
-.././i2c.h:
+.././twi.h:
 
 .././hc-sr04.h:
 
@@ -75,6 +68,10 @@ e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\
 .././servo.h:
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\math.h:
+
+e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\stdio.h:
+
+e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\lib\gcc\avr\5.4.0\include\stdarg.h:
 
 e:\programas\ uni\atmel\7.0\toolchain\avr8\avr8-gnu-toolchain\avr\include\util\delay.h:
 

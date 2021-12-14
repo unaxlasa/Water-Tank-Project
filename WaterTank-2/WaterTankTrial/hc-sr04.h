@@ -20,8 +20,6 @@
 #ifndef HCSR04_H
 #define HCSR04_H
 
-void init_ultrasonic_sensor();
-
-float get_dist();
+uint16_t DistanceValue();
 
 #endif /* HCSR04_H */
