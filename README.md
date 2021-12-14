@@ -26,6 +26,10 @@ The objective of this project is to control a water tank using ATMega328p microc
 - 1x Micro servo (SG-90)
 - 1x LCD
 
+* Connections:
+
+![your figure]()
+
 ## Code description and simulations
 In order to do this project we had to use several libraries, some of them from previous laboratory excercises. We had to add libraries for the servo motor, ultrasonic sensorand humidity, temperature and barometric sensor. We created our own library `servo.h` which you can find it [here](WaterTank/WaterTank/src/ServoC.h).
 
