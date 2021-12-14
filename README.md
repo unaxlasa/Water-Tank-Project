@@ -28,16 +28,24 @@ The objective of this project is to control a water tank using ATMega328p microc
 
 * Connections:
 
-![your figure]()
+![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Connections.jpeg)
 
 ## Code description and simulations
 In order to do this project we had to use several libraries, some of them from previous laboratory excercises. We had to add libraries for the servo motor, ultrasonic sensorand humidity, temperature and barometric sensor. We created our own library `servo.h` which you can find it [here](WaterTank/WaterTank/src/ServoC.h).
 
 **Libraries from previous labs:**
 * avr/io.h: AVR input/output definitions.
+* avr/interrupt.h: For AVR-GCC standard interruptors.
+* stdlib.h: For conversion functions-
+* gpio.h: For configuration and manipulation of I/O.
+* math.h: For mathematical operations. 
+* stdio.h: For variables and I/O functions.
+* util/delay.h: For dalays.
 * [lcd.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/lcd.h): For using the LCD.
 * [lcd_definitions.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/lcd_definitions.h): For defining the LCD parameters.
 * [timer.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/timer.h): For difining timers.
+* [conf_board.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/conf_board.h): For configurating the board.
+
 
 **Added libraries:**
 * [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/hc-sr04.h): For using the ultrasonic sensor.
@@ -100,12 +108,12 @@ This are functions we used for the humidity sensor, here the library [bme280.h](
 
 
 ## References
-1) [What is flowchart?](https://www.breezetree.com/articles/what-is-a-flow-chart)
-2) [FlowchartMaker](https://app.diagrams.net/)
-3) ...
-4) ...
-5) ...
-6) ...
+1) [FlowchartMaker](https://app.diagrams.net/)
+2) 
+3) 
+4) 
+5) 
+6) 
 7) [ASCII](https://www.asciitable.com/)
 
 
