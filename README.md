@@ -76,7 +76,8 @@ This are functions we used for the ultrasonic sensor, here the library [hc-sr04.
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
-| | | | |
+| `init_ultrasonic_sensor()` | None | None | Initialize the ultrasonic sensor. |
+| `get_dist()` | None | float dist | The sensor is always making the measurement, when we activate this function we get the value of it. | 
 
 This are functions we used for the humidity sensor, here the library [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/bme280.h).
 &nbsp;
