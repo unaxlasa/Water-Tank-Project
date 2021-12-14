@@ -31,14 +31,14 @@ In order to do this project we had to use several libraries, some of them from p
 
 **Libraries from previous labs:**
 * avr/io.h: AVR input/output definitions.
-* [lcd.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/lcd.h): For using the LCD.
-* [lcd_definitions.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/lcd_definitions.h): For defining the LCD parameters.
-* [timer.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/timer.h): For difining timers.
+* [lcd.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/lcd.h): For using the LCD.
+* [lcd_definitions.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/lcd_definitions.h): For defining the LCD parameters.
+* [timer.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/timer.h): For difining timers.
 
 **Added libraries:**
-* [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/hc-sr04.h): For using the ultrasonic sensor.
-* [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/servo.h): For controlling the servo motor.
-* [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/bme280.h): For using the humidity sensor.
+* [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/hc-sr04.h): For using the ultrasonic sensor.
+* [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/servo.h): For controlling the servo motor.
+* [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/bme280.h): For using the humidity sensor.
 
 
 We use all 3 timers in our project, in the table below you can see why and with which prescaler we use the them,
