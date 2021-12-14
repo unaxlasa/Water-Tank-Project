@@ -19,22 +19,12 @@ uint16_t cicle_ON;
 
 void setupServo( uint8_t porcentage)
 {
-	counter=0;
-	GPIO_config_output(&DDRD,PIN_NUM);
-	TIM0_overflow_128us(); //16
-	cicle_ON = 7;
-	GPIO_write_high(&PORTD,PIN_NUM);
-	
-	while(counter!=0){}
+	TCNT1 = 0;		/* Set timer1 count zero */
+	ICR1 = 39999;		/* Set TOP count for timer1 in ICR1 register */
+	TCCR2A =  (1 << COM1A1) | (0 << COM1A0) ; // When the compare match is the same we set it low
+	TCCR2A |=  (1 << WGM11) | (0 << WGM10) ; // Fast PWM: TOP: ICR1
+	TCCR2B = (1 << WGM13) | (1 << WGM12); // // Fast PWM: TOP: ICR1
+	TCCR2B |= (0 << CS12) | (1 << CS11) | ( 0 << CS10 ); // Preesc = 8
+	OCR2B=2000;
 }
-
-ISR(TIMER0_OVF_vect){
-	if(cicle_ON < counter){
-		GPIO_write_low(&PORTD,PIN_NUM);
-		counter=0;
-		TIM0_stop();
-	}
-	counter++;
-}
-
 
