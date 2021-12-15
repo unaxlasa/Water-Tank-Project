@@ -62,7 +62,7 @@
 #define LCD_DATA2_PORT  LCD_PORT
 #define LCD_DATA3_PORT  LCD_PORT
 #define LCD_DATA0_PIN   PD4 /**< @brief Pin for HD44780 data pin D4 */
-#define LCD_DATA1_PIN   PD5 /**< @brief Pin for HD44780 data pin D5 */
+#define LCD_DATA1_PIN   PD3 /**< @brief Pin for HD44780 data pin D5 */
 #define LCD_DATA2_PIN   PD6 /**< @brief Pin for HD44780 data pin D6 */
 #define LCD_DATA3_PIN   PD7 /**< @brief Pin for HD44780 data pin D7 */
 #define LCD_RS_PORT     PORTB

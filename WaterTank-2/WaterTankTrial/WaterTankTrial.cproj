@@ -158,12 +158,6 @@
     <Compile Include="asf.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="bme280.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="bme280.h">
-      <SubType>compile</SubType>
-    </Compile>
     <Compile Include="conf_board.h">
       <SubType>compile</SubType>
     </Compile>
@@ -204,6 +198,12 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="timer.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="twi.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="twi.h">
       <SubType>compile</SubType>
     </Compile>
   </ItemGroup>
