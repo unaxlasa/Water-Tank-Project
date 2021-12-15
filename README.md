@@ -101,6 +101,12 @@ This are functions we used for the humidity sensor, here the library [bme280.h](
 | | | | |
 
 ## Simulation of Watertank
+Here the schema we did on [simulIDE](https://www.simulide.com/p/home.html):
+
+<p align="center">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Eskema.PNG">
+</p>
+
 * If it is rainy:
 
 
@@ -112,7 +118,7 @@ This are functions we used for the humidity sensor, here the library [bme280.h](
 
 ## References
 1) [FlowchartMaker](https://app.diagrams.net/)
-2) 
+2) [simulIDE](https://www.simulide.com/p/home.html)
 3) 
 4) 
 5) 
