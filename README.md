@@ -60,9 +60,9 @@ We use all 3 timers in our project, in the table below you can see why and with 
 &nbsp;
 |           TIMER          | PRESCALER | REASON |        
 |:------------------------:|:------------------------------------:|:---:|
-|      `Timer/Counter1`      |    ms    |                         |
-|      `Timer/Counter1`      |    ms    |                         |
-
+|      `Timer/Counter0`      |   16.384ms  |  In order to create a PWM pulse to control the microservo-motor. |
+|      `Timer/Counter1`      |   4.096ms   |  For the LCD. |
+|      `Timer/Counter2`      |   16ms  |  In order to count the time of the ultrasonic echo. |
 
 
 
@@ -70,35 +70,50 @@ Those are some functions we created for the programme.
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
-|      `Display()`      |   uint8_t setting,uint8_t value    | None | Displays different display settings. |
-|      `PressureGetValue()`      |   uint8_t waterlevel  | uint8_t  | Returns the pressure value at the bottom of the tank.  |
-| `PumpSet()` | uint8_t state |  None |  Update the values of distance and pressure. |
 | `ValveSet()` | uint8_t openper | None | Moves the servo motor to the porcentage introduced  |
-| `ReadKeys()` | uint8_t setting, uint8_t *data[4], int value | uint8_t newset | Proccess the press of the button, by changing the data when is posible. |
-| `DistanceSensorValue()` | uint8_t full | int8_t | Update the values of distance and pressure. |
+| `DistanceSensorValue()` | uint8_t FULL | int16_t | Update the values of distance. |
+| `DistanceValue()` | None | uint16_t | Measures the distance. | 
 
-We created a library for the servo motor, [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/servo.h). 
+We created a library for the menu, [menu.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/menu.h)
+&nbsp;
+| FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
+|:-----------:|:------------------------------------:|:---:|:--:|
+| `Display()` |   uint8_t setting, uint8_t value, uint16_t data[]   | None | Displays different display settings. |
+| `ReadKeys()` | uint8_t setting, uint8_t data[], int value | uint8_t newset | Proccess the press of the button, by changing the data when is posible. |
+
+We created a library to control de pump, [pump.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/pump.h)
+&nbsp;
+| FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
+|:-----------:|:------------------------------------:|:---:|:--:|
+| `PumpToggle()` | uint16_t data[] | None | Swiches the state of the pump. |
+
+We created a library to control the valve, [valve.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/valve.h)
+&nbsp;
+| FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
+|:-----------:|:------------------------------------:|:---:|:--:|
+| `ValveSet()` | uint8_t openper | None | Moves the valve to the porcentage indicated. |
+
+
+We created a library for the servo motor, [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/servo.h). 
 Those are the functions in it that we used:
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
-| `setupServoTimer()` | volatile uint8_t *reg_name, uint8_t pin_num | None |Set ups the pin as output an creates the PWM |
-| `moveServoTimer()` | uint8_t porcentage | None | Moves the servo, changing the porcentage to values for the servo |
+| `setupServo()` | vuint8_t porcentage | None |Set ups the pin as output an creates the PWM in order to move the microservo motor. |
 
-We found some libraries on the internet, in order to control the sensors:
-
-This are functions we used for the ultrasonic sensor, here the library [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/hc-sr04.h).
+This are functions we used for the ultrasonic sensor, here the library [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/hc-sr04.h).
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
 | `init_ultrasonic_sensor()` | None | None | Initialize the ultrasonic sensor. |
 | `get_dist()` | None | float dist | The sensor is always making the measurement, when we activate this function we get the value of it. | 
 
-This are functions we used for the humidity sensor, here the library [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank/WaterTankTrial/bme280.h).
+This are functions we used for the humidity sensor, here the library [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/bme280.h).
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
-| | | | |
+| `PressureGetValue()`| uint16_t data[],uint8_t FULL | uint16_t | Gets the preassure value. |
+| `HumidGetValue()`| uint16_t data[],uint8_t FULL | uint16_t | Gets the humidity value. |
 
 ## Simulation of Watertank
 Here the schema we did on [simulIDE](https://www.simulide.com/p/home.html):
@@ -119,11 +134,10 @@ Here the schema we did on [simulIDE](https://www.simulide.com/p/home.html):
 ## References
 1) [FlowchartMaker](https://app.diagrams.net/)
 2) [simulIDE](https://www.simulide.com/p/home.html)
-3) 
-4) 
-5) 
-6) 
-7) [ASCII](https://www.asciitable.com/)
+3) [Ultrasonic I](https://www.arxterra.com/11-atmega328p-external-interrupts/)
+4) [Ultrasonic II](https://www.avrfreaks.net/forum/atmega328p-and-hc-sr04?skey=atmega328p%20sr04%20INT0)
+5) [Servo I](https://ee-diary.blogspot.com/2021/07/atmega328p-fast-pwm-mode-programming.html)
+6) [Servo II](https://www.laboratoriogluon.com/generar-senal-pwm-para-servo-con-avr-atmega328p/)
 
 
 
