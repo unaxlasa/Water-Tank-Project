@@ -61,16 +61,21 @@ In order to do this project we had to use several libraries, some of them from p
 * math.h: For mathematical operations. 
 * stdio.h: For variables and I/O functions.
 * util/delay.h: For dalays.
-* [lcd.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/lcd.h): For using the LCD.
-* [lcd_definitions.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/lcd_definitions.h): For defining the LCD parameters.
-* [timer.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/timer.h): For difining timers.
-* [conf_board.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/conf_board.h): For configurating the board.
+* [lcd.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/lcd.h): For using the LCD.
+* [lcd_definitions.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/lcd_definitions.h): For defining the LCD parameters.
+* [timer.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/timer.h): For difining timers.
+* [conf_board.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/conf_board.h): For configurating the board.
+* [i2c.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/i2c.h): For serial comunication.
+* [twi.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/twi.h): For serial comunication.
 
 
 **Added libraries:**
 * [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/hc-sr04.h): For using the ultrasonic sensor.
 * [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/servo.h): For controlling the servo motor.
 * [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/bme280.h): For using the humidity sensor.
+* [menu.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/menu.h): To control the menu.
+* [pump.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/pump.h): To control the pump.
+* [valve.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/valve.h): To control the valve.
 
 
 We use all 3 timers in our project, in the table below you can see why and with which prescaler we use the them,
@@ -91,14 +96,14 @@ Those are some functions we created for the programme.
 | `DistanceSensorValue()` | uint8_t FULL | int16_t | Update the values of distance. |
 | `DistanceValue()` | None | uint16_t | Measures the distance. | 
 
-We created a library for the menu, [menu.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/menu.h)
+We created a library for the menu, [menu.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/menu.h)
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
 | `Display()` |   uint8_t setting, uint8_t value, uint16_t data[]   | None | Displays different display settings. |
 | `ReadKeys()` | uint8_t setting, uint8_t data[], int value | uint8_t newset | Proccess the press of the button, by changing the data when is posible. |
 
-We created a library to control de pump, [pump.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/pump.h)
+We created a library to control de pump, [pump.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/pump.h)
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
@@ -111,21 +116,21 @@ We created a library to control the valve, [valve.h](https://github.com/unaxlasa
 | `ValveSet()` | uint8_t openper | None | Moves the valve to the porcentage indicated. |
 
 
-We created a library for the servo motor, [servo.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/servo.h). 
+We created a library for the servo motor, [servo.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/servo.h). 
 Those are the functions in it that we used:
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
 | `setupServo()` | vuint8_t porcentage | None |Set ups the pin as output an creates the PWM in order to move the microservo motor. |
 
-This are functions we used for the ultrasonic sensor, here the library [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/hc-sr04.h).
+This are functions we used for the ultrasonic sensor, here the library [hc-sr04.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/hc-sr04.h).
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
 | `init_ultrasonic_sensor()` | None | None | Initialize the ultrasonic sensor. |
 | `get_dist()` | None | float dist | The sensor is always making the measurement, when we activate this function we get the value of it. | 
 
-This are functions we used for the humidity sensor, here the library [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/tree/main/WaterTank-2/WaterTankTrial/bme280.h).
+This are functions we used for the humidity sensor, here the library [bme280.h](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Program/WATERTANKPROJECT_TEAM3/bme280.h).
 &nbsp;
 | FUNCTION NAME | PARAMETERS | RETURN | APPLICATION |         
 |:-----------:|:------------------------------------:|:---:|:--:|
@@ -136,7 +141,7 @@ This are functions we used for the humidity sensor, here the library [bme280.h](
 Here the schema we did on [simulIDE](https://www.simulide.com/p/home.html):
 
 <p align="center">
-  <img src="https://github.com/unaxlasa/Water-Tank-Project/tree/main/img/Eskema.PNG">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/Eskema.PNG">
 </p>
 
 * If it is rainy:
