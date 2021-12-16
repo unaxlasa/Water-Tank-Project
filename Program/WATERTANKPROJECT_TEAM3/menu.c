@@ -16,23 +16,23 @@
 
 void Display(uint8_t setting, uint16_t data[], uint8_t FULL){
 	
-	char lcd_string[2] = " ";						// Creates a string
+	char lcd_string[2] = " ";					// Creates a string
 	lcd_gotoxy(0,1);
 	
 	switch (setting)						// Defines the display of each setting
 	{
-		case 0:										// Depth
-		data[0] = DistanceSensorValue(FULL);		// Update the water level
-		lcd_gotoxy(0,0);							// We go to the 0,0
-		lcd_puts("Depth:");							// We write the text, in this case is Depth
-		if(data[0]>=FULL){							// If the depth is the same as the full tank we write a message of FULL
-				lcd_gotoxy(0,1);					// We move to the 0,1 position and we write the message
+		case 0:						// Depth
+		data[0] = DistanceSensorValue(FULL);			// Update the water level
+		lcd_gotoxy(0,0);					// We go to the 0,0
+		lcd_puts("Depth:");					// We write the text, in this case is Depth
+		if(data[0]>=FULL){					// If the depth is the same as the full tank we write a message of FULL
+				lcd_gotoxy(0,1);			// We move to the 0,1 position and we write the message
 				lcd_puts("FULL");
 		}else{
-		lcd_gotoxy(0,1);						// If the value is not the same as the full tank, we write the depth in the 0,1 position
+		lcd_gotoxy(0,1);					// If the value is not the same as the full tank, we write the depth in the 0,1 position
 		itoa(data[setting],lcd_string,10);			// We transform the value from the data matrix into a string
-		lcd_puts(lcd_string);				// We write the string
-		lcd_gotoxy(3,1);		// As the value in real simulation is always going to be less or same as 400 is going to the 3 digits so we clean the 4th
+		lcd_puts(lcd_string);					// We write the string
+		lcd_gotoxy(3,1);					// As the value in real simulation is always going to be less or same as 400 is going to the 3 digits so we clean the 4th
 		lcd_puts(" ");						// We write an space in the 3,1 position
 		if(data[setting]<=999){					// We need to do some corrections, depending of the digits
 			lcd_gotoxy(3,1);				// If the value is 3 digits we clean the 4th with a space
@@ -81,7 +81,7 @@ void Display(uint8_t setting, uint16_t data[], uint8_t FULL){
 		lcd_puts("Pump:");					// And we write Pump in that position
 		break;
 		
-		case 3:							// Atmosphere Pressure
+		case 3:						// Atmosphere Pressure
 		data[3] = PressureGetValue(data, FULL);			// Update the pressure at the bottom of the tank
 		itoa(data[setting],lcd_string,10);			// We convert it into a string
 		lcd_puts(lcd_string);					// We write this string
@@ -103,7 +103,7 @@ void Display(uint8_t setting, uint16_t data[], uint8_t FULL){
 		lcd_puts("KPa");
 		break;
 		
-		case 4:							// Humidity
+		case 4:						// Humidity
 		data[4] = HumidGetValue(data, FULL);			// Update the humidity calling to the function
 		lcd_gotoxy(0,0);					// We go to 0,0
 		lcd_puts("Humid:");					// We write Humidity in that position
@@ -150,9 +150,9 @@ void Display(uint8_t setting, uint16_t data[], uint8_t FULL){
 			lcd_puts(" ");
 		}
 		lcd_gotoxy(0,0);
-		lcd_puts("Tank Pressure:");							// We write the text in the 0,0 position
-		lcd_gotoxy(5,1);									// We go to the 5,1 position
-		lcd_puts("KPa");									// We write the unit
+		lcd_puts("Tank Pressure:");				// We write the text in the 0,0 position
+		lcd_gotoxy(5,1);					// We go to the 5,1 position
+		lcd_puts("KPa");					// We write the unit
 		
 	}
 }
@@ -160,49 +160,49 @@ void Display(uint8_t setting, uint16_t data[], uint8_t FULL){
 
 uint8_t ReadKeys( uint8_t setting, int value, uint16_t data[]){
 	
-	uint8_t newset = setting;									// We set a new variable called newsetting with will take the setting value
+	uint8_t newset = setting;						// We set a new variable called newsetting with will take the setting value
 
-	if(value>80 && value<120){									// Up
-		if(newset<1||newset>50){								// If the setting is zero and we push the up button, we return to setting 5
+	if(value>80 && value<120){					// Up
+		if(newset<1||newset>50){					// If the setting is zero and we push the up button, we return to setting 5
 			newset= 5;
 		}
-		else{													// If not we decrease the value by one
-			newset = newset -1;									//UP is pressed 120. Change the display setting.
+		else{								// If not we decrease the value by one
+			newset = newset -1;					//UP is pressed 120. Change the display setting.
 		}
-		lcd_gotoxy(0,0);										// We go to 0,0
+		lcd_gotoxy(0,0);						// We go to 0,0
 		lcd_puts("                                                                                                       "); //Resets screen
 	}
 	
-	if(value>200 && value< 300){								// DOWN
-		if(newset>4){											// If newset is 5 and we push the button the value will increase by one, and enter
-			newset = 0;											// The newset will be 0
+	if(value>200 && value< 300){					// DOWN
+		if(newset>4){							// If newset is 5 and we push the button the value will increase by one, and enter
+			newset = 0;						// The newset will be 0
 		}
-		else{													// If not we increase the value by one
+		else{								// If not we increase the value by one
 			newset= setting + 1;
 		}
-		lcd_gotoxy(0,0);										// We go to 0,0 position
+		lcd_gotoxy(0,0);						// We go to 0,0 position
 		lcd_puts("												                                                        "); //Resets screen
 	}
 	
-	if(value>390 && value<430){									// LEFT, When left button is pressed 410.
-		if (setting==1 && data[setting] != 0 ){					// If we are in the setting 1 and the value is not zero
-			data[setting]=data[setting]-5;						// Decrease the value in jumps of 5
-			ValveSet(data[setting]);							// Set the value
+	if(value>390 && value<430){					// LEFT
+		if (setting==1 && data[setting] != 0 ){				// If we are in the setting 1 and the value is not zero
+			data[setting]=data[setting]-5;				// Decrease the value in jumps of 5
+			ValveSet(data[setting]);				// Set the value
 		}
-		if(setting==2){											// If we are in the setting 2, pump state, we toggle the pump
+		if(setting==2){							// If we are in the setting 2, pump state, we toggle the pump
 			PumpToggle(data);
 		}
 	}
 	
-	if(value < 80){												// Right
-		if(data[setting] != 100 && setting==1){					// If we are in setting 2, the valve state, and the value is not 100
-			data[setting]=data[setting]+5;						// If it is possible to edit increase the value
-			ValveSet(data[setting]);							// We set the valve
+	if(value < 80){							// Right
+		if(data[setting] != 100 && setting==1){				 // If we are in setting 2, the valve state, and the value is not 100
+			data[setting]=data[setting]+5;				 // If it is possible to edit increase the value
+			ValveSet(data[setting]);				 // We set the valve
 		}
-		if(setting==2){											// If we are in the pump set
-			PumpToggle(data);									// We set the pump
+		if(setting==2){							// If we are in the pump set
+			PumpToggle(data);					// We set the pump
 		}
 	}
-	return newset;												// We return the new setting
+	return newset;								// We return the new setting
 	
 }
