@@ -13,9 +13,9 @@
 void PumpToggle(uint16_t data[]){
 	data[2]=!data[2];						// We toggle the value of the data matrix form setting 2
 	if(data[2]==1){							// If it is equal to 1
-		GPIO_write_high(&PORTD,1);			// We activate the pump
+		GPIO_write_high(&PORTD,1);			// We activate the relee for the pump
 	}
 	else{									// if it is not 1
-		GPIO_write_low(&PORTD,1);			// We deactivate the pump
+		GPIO_write_low(&PORTD,1);			// We deactivate the relee
 	}
 }
