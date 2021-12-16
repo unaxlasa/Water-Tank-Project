@@ -1,7 +1,7 @@
 # Water-Tank-Project 🚰
 
 <p align="center">
-  <img width="600" height="400" src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/water-tank.jpg">
+  <img width="600" height="400" src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/water-tank.jpg">
 </p>
 
 ### Team members
@@ -14,29 +14,29 @@ The objective of this project is to control a water tank using ATMega328p microc
 ## Circuit Diagram and Flowchart
 **Circuit Diagram**
 
-![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Schema.png)
+![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/Schema.png)
 
 **Here the flowcharts of our programm:**
 Firstly, the flowchart of the main:
 
 <p align="center">
-  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/FlowChartMain.drawio.png">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/FlowChartMain.drawio.png">
 </p>
 
 Here the flowchart of the ISR of the main programme:
 
 <p align="center">
-  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/ISR.drawio.png">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/ISR.drawio.png">
 </p>
 
 Finally, the flowcharts of two of the most important functions:
 
 <p align="center">
-  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Menu.drawio.png">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/Menu.drawio.png">
 </p>
 
 <p align="center">
-  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Buttons.drawio.png">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/Buttons.drawio.png">
 </p>
 
 ## Hardware description
@@ -48,7 +48,7 @@ Finally, the flowcharts of two of the most important functions:
 
 *Connections:*
 
-![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Connections.jpeg)
+![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/Connections.jpeg)
 
 ## Code description and simulations
 In order to do this project we had to use several libraries, some of them from previous laboratory excercises. We had to add libraries for the servo motor, ultrasonic sensorand humidity, temperature and barometric sensor. We created our own library `servo.h` which you can find it [here](WaterTank/WaterTank/src/ServoC.h).
@@ -136,7 +136,7 @@ This are functions we used for the humidity sensor, here the library [bme280.h](
 Here the schema we did on [simulIDE](https://www.simulide.com/p/home.html):
 
 <p align="center">
-  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Eskema.PNG">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/tree/main/img/Eskema.PNG">
 </p>
 
 * If it is rainy:
