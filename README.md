@@ -10,7 +10,7 @@
 [Here](https://github.com/unaxlasa/Water-Tank-Project/blob/main/README.md) the link to the Readme file.
 
 ## Project objectives
-The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water, check the rain. Also, we are going to use a water-pump, when the level of the water is low, we will pump water into the tank. We will have a butterfly valve at the output pipe, in order to regulate the water flow; if its raining the valve woul be half open (45º), if the tank is full the valve will be full open (90º). We will have a LCD to display and manipulate all the variables of the tank.
+The objective of this project is to control a water tank using ATMega328p microcontroller and C language . In order to do so, we have to use some sensor to measure the level of the water, check the rain. Also, we are going to use a water-pump, when the level of the water is low, we will pump water into the tank. We will have a butterfly valve at the output pipe, in order to regulate the water flow. We will have a LCD to display and manipulate all the variables of the tank.
 ## Circuit Diagram and Flowchart
 **Circuit Diagram**
 
@@ -51,7 +51,7 @@ Finally, the flowcharts of two of the most important functions:
 ![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/Connections.jpeg)
 
 ## Code description and simulations
-In order to do this project we had to use several libraries, some of them from previous laboratory excercises. We had to add libraries for the servo motor, ultrasonic sensorand humidity, temperature and barometric sensor. We created our own library `servo.h` which you can find it [here](WaterTank/WaterTank/src/ServoC.h).
+In order to do this project we had to use several libraries, some of them from previous laboratory excercises. We had to add libraries for the servo motor, ultrasonic sensorand humidity, temperature and barometric sensor. We created our own libraries to use them, based on libraries we found on the internet.
 
 **Libraries from previous labs:**
 * avr/io.h: AVR input/output definitions.
