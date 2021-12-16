@@ -6,14 +6,14 @@
  */
 
 #define  PIN_NUM PD2
-#define F_CPU 16000000	/* Define CPU Frequency e.g. here its 8MHz */
+#define F_CPU 16000000	/* Define CPU Frequency e.g. here its 16MHz */
 
 #include <avr/io.h>         // AVR device-specific IO definitions
 #include <avr/interrupt.h>  // Interrupts standard C library for AVR-GCC
 #include "timer.h"          // Timer library for AVR-GCC
 #include "lcd.h"            // Peter Fleury's LCD library
 #include <stdlib.h>         // C library. Needed for conversion function
-#include <math.h>			// Math library. For calculations like round
+#include <math.h>	// Math library. For calculations like round
 
 
 
