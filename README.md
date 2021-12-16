@@ -16,10 +16,27 @@ The objective of this project is to control a water tank using ATMega328p microc
 
 ![your figure](https://github.com/unaxlasa/Water-Tank-Project/blob/main/Schema.png)
 
-**Here the flowchart of our programm:**
+**Here the flowcharts of our programm:**
+Firstly, the flowchart of the main:
 
 <p align="center">
-  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Flowchart.drawio.png">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/FlowChartMain.drawio.png">
+</p>
+
+Here the flowchart of the ISR of the main programme:
+
+<p align="center">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/ISR.drawio.png">
+</p>
+
+Finally, the flowcharts of two of the most important functions:
+
+<p align="center">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Menu.drawio.png">
+</p>
+
+<p align="center">
+  <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/Buttons.drawio.png">
 </p>
 
 ## Hardware description
