@@ -174,7 +174,7 @@ uint8_t ReadKeys( uint8_t setting, int value, uint16_t data[]){
 	}
 	
 	if(value>200 && value< 300){								// DOWN
-		if(newset>5){											// If newset is 5 and we push the button the value will increase by one, and enter
+		if(newset>4){											// If newset is 5 and we push the button the value will increase by one, and enter
 			newset = 0;											// The newset will be 0
 		}
 		else{													// If not we increase the value by one
