@@ -144,14 +144,17 @@ Here the schema we did on [simulIDE](https://www.simulide.com/p/home.html):
   <img src="https://github.com/unaxlasa/Water-Tank-Project/blob/main/img/Eskema.PNG">
 </p>
 
-* If it is rainy:
+* PUMP:
 
+![PUMP](https://github.com/unaxlasa/Water-Tank-Project/blob/main/gifs/PUMP.gif)
 
-* If the tank empty:
+* VALVE SET:
 
+![VALVE SET](https://github.com/unaxlasa/Water-Tank-Project/blob/main/gifs/VALVE%20SET.gif)
 
-* If the tank full:
+* MENU:
 
+![MENU](https://github.com/unaxlasa/Water-Tank-Project/blob/main/gifs/MENU.gif)
 
 ## References
 1) [FlowchartMaker](https://app.diagrams.net/)
