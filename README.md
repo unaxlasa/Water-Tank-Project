@@ -165,4 +165,3 @@ Here the schema we did on [simulIDE](https://www.simulide.com/p/home.html):
 6) [Servo II](https://www.laboratoriogluon.com/generar-senal-pwm-para-servo-con-avr-atmega328p/)
 
 
-
